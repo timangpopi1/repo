@@ -7,4 +7,4 @@ jobs:
       - run:
           command: |
             git clone --depth=1 https://github.com/Nick89786/android_kernel_xiaomi_msm8917 -b lineage-17.1 kernel && cd kernel
-            wget https://github.com/timangpopi1/repo/raw/master/build bash build 'rolex defconfig'
+            wget https://github.com/timangpopi1/repo/raw/master/build bash build 'rolex defconfig' 'rolex'
