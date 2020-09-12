@@ -5,5 +5,4 @@ jobs:
       - image: fadlyas/kernel_dockerfile:latest
     steps:
       - checkout
-      - run: wget -O kernel.sh https://github.com/timangpopi1/repo/raw/master/build
-      - run: bash kernel.sh 'rolex_defconfig' 'rolex'
+      - run: bash ./build
