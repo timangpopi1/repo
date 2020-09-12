@@ -4,7 +4,6 @@ jobs:
     docker:
       - image: fadlyas/kernel_dockerfile:latest
     steps:
-      - run:
-          command: |
-            git clone --depth=1 https://github.com/timangpopi1/kernel_msm-4.9 kernel && cd kernel
-            wget https://github.com/timangpopi1/repo/raw/master/build && bash build 'rolex_defconfig' 'rolex'
+      - checkout
+      - run: wget -O kernel.sh https://github.com/timangpopi1/repo/raw/master/build
+      - run: bash kernel.sh 'rolex_defconfig' 'rolex'
