@@ -1,14 +1,9 @@
-git clone --depth=1 https://github.com/timangpopi1/kernel_msm-4.9 -b LA.UM.8.6.2.r1/master master && cd master
-[[ ! -d "$(pwd)/anykernel-3" ]] && git clone https://github.com/fadlyas07/anykernel-3 --depth=1 &>/dev/null
-[[ ! -d "$(pwd)/gcc" ]] && git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 --depth=1 -b android-9.0.0_r45 gcc &>/dev/null
-[[ ! -d "$(pwd)/gcc32" ]] && git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 --depth=1 -b android-9.0.0_r45 gcc32 &>/dev/null
-codename=rolex
-export ARCH=arm64
-export SUBARCH=arm64
+#!/usr/bin/env bash
+export ARCH=arm64 && export SUBARCH=arm64
 export CROSS_COMPILE="$(pwd)/gcc/bin/aarch64-linux-android-"
 export CROSS_COMPILE_ARM32="$(pwd)/gcc32/bin/arm-linux-androideabi-"
-make ARCH=arm64 O=out rolex_defconfig
-make -j$(nproc) ARCH=arm64 O=out &> build.log
+make make -j$(nproc) -l$(nproc) ARCH=arm64 O=out rolex_defconfig
+make -j$(nproc) -l$(nproc) ARCH=arm64 O=out &> build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz-dtb ]] ; then
     curl -s -X POST "https://api.telegram.org/bot960007819:AAGjqN3UsMFc7iFMkc0Mj8owotH-oJchCag/sendMessage" -d chat_id="784548477" -d text="Test Failed, Please fix it now @fadlyas07!"
     curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot960007819:AAGjqN3UsMFc7iFMkc0Mj8owotH-oJchCag/sendDocument" -F chat_id="784548477"
