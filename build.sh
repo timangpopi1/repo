@@ -2,7 +2,7 @@
 export ARCH=arm64 && export SUBARCH=arm64
 export CROSS_COMPILE="$(pwd)/gcc/bin/aarch64-linux-android-"
 export CROSS_COMPILE_ARM32="$(pwd)/gcc32/bin/arm-linux-androideabi-"
-make make -j$(nproc) -l$(nproc) ARCH=arm64 O=out rolex_defconfig
+make -j$(nproc) -l$(nproc) ARCH=arm64 O=out rolex_defconfig
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out &> build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz-dtb ]] ; then
     curl -s -X POST "https://api.telegram.org/bot960007819:AAGjqN3UsMFc7iFMkc0Mj8owotH-oJchCag/sendMessage" -d chat_id="784548477" -d text="Test Failed, Please fix it now @fadlyas07!"
