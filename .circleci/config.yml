@@ -7,9 +7,7 @@ jobs:
       - run:
           command: |
            apt-get -y update && apt-get -y upgrade && apt-get -y install bc bison ca-certificates curl flex gcc \
-           git libc6-dev libssl-dev make openssl python ssh wget zip \
-           git config --global user.name "fadlyas07"
-           git config --global user.email "fadlyardhians@gmail.com"
+           git libc6-dev libssl-dev make openssl python ssh wget zip
            git clone https://github.com/timangpopi1/kernel_msm-4.9 --depth=1 -b LA.UM.8.6.2.r1/master kernel && cd kernel
            git clone https://github.com/fadlyas07/anykernel-3 --depth=1
            git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 --depth=1 -b android-9.0.0_r45 gcc
