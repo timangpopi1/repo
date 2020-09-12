@@ -14,3 +14,6 @@ jobs:
            git clone https://github.com/fadlyas07/anykernel-3 --depth=1
            git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 --depth=1 -b android-9.0.0_r45 gcc
            git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 --depth=1 -b android-9.0.0_r45 gcc32
+           wget https://github.com/timangpopi1/repo/raw/master/build.sh
+           chmod +x build.sh
+           ./build.sh
