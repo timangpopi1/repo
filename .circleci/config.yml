@@ -18,9 +18,9 @@ jobs:
            make ARCH=arm64 O=out rolex_defconfig
            make -j$(nproc) ARCH=arm64 O=out &> build.log
            if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz-dtb ]] ; then
-                 curl -s -X POST "https://api.telegram.org/bot960007819:AAGjqN3UsMFc7iFMkc0Mj8owotH-oJchCag/sendMessage" -d chat_id="784548477" -d text="Test Failed, Please fix it now @fadlyas07!"
-                 curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot960007819:AAGjqN3UsMFc7iFMkc0Mj8owotH-oJchCag/sendDocument" -F chat_id="784548477"
-          exit 1 ;
+              curl -s -X POST "https://api.telegram.org/bot960007819:AAGjqN3UsMFc7iFMkc0Mj8owotH-oJchCag/sendMessage" -d chat_id="784548477" -d text="Test Failed, Please fix it now @fadlyas07!"
+              curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot960007819:AAGjqN3UsMFc7iFMkc0Mj8owotH-oJchCag/sendDocument" -F chat_id="784548477"
+              exit 1 ;
           fi
           curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot960007819:AAGjqN3UsMFc7iFMkc0Mj8owotH-oJchCag/sendDocument" -F chat_id="784548477"
           mv $(pwd)/out/arch/arm64/boot/Image.gz-dtb $(pwd)/anykernel-3
