@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
+export KBUILD_BUILD_USER=fadlyas07
 export ARCH=arm64 && export SUBARCH=arm64
 export LD_LIBRARY_PATH=$(pwd)/gf-clang/lib:$LD_LIBRARY_PATH
+export KBUILD_BUILD_TIMESTAMP=$(TZ=Asia/Jakarta date)
+CCV=$(echo $($(pwd)/gf-clang/bin/clang --version | head -n1))
+LDV=$(echo $($(pwd)/gf-clang/bin/ld.lld --version | head -n1))"
 export PATH=$(pwd)/gf-clang/bin:$PATH
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1}
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
 CC=clang CROSS_COMPILE=aarch64-linux-gnu- \
+KBUILD_COMPILER_STRING="$CCV with $LDV" \
 CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
 AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy \
 OBJDUMP=llvm-objdump STRIP=llvm-strip 2>&1| tee build.log
