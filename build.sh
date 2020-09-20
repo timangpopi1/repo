@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
 export ARCH=arm64 && export SUBARCH=arm64
-export CROSS_COMPILE="$(pwd)/gcc/bin/aarch64-elf-"
-export CROSS_COMPILE_ARM32="$(pwd)/gcc32/bin/arm-eabi-"
+export LD_LIBRARY_PATH=$(pwd)/gf-clang/lib:$LD_LIBRARY_PATH
+export PATH=$(pwd)/gf-clang/bin:$PATH
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1}
-make -j$(nproc) -l$(nproc) ARCH=arm64 O=out 2>&1| tee build.log
+make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
+CC=clang CROSS_COMPILE=aarch64-linux-gnu- \
+CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
+AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy \
+OBJDUMP=llvm-objdump STRIP=llvm-strip 2>&1| tee build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz-dtb ]] ; then
     curl -s -X POST "https://api.telegram.org/bot960007819:AAGjqN3UsMFc7iFMkc0Mj8owotH-oJchCag/sendMessage" -d chat_id="784548477" -d text="Test Failed, Please fix it now @fadlyas07!"
     curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot960007819:AAGjqN3UsMFc7iFMkc0Mj8owotH-oJchCag/sendDocument" -F chat_id="784548477"
