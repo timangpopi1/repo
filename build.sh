@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 export ARCH=arm64 && export SUBARCH=arm64
 export LD_LIBRARY_PATH=$(pwd)/gf-clang/lib:$LD_LIBRARY_PATH
+export PATH=$(pwd)/gf-clang/bin:$PATH
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1}
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
 CC=clang CROSS_COMPILE=aarch64-linux-gnu- \
