@@ -4,7 +4,7 @@ export ARCH=arm64 && export SUBARCH=arm64
 export LD_LIBRARY_PATH=$(pwd)/gf-clang/lib:$LD_LIBRARY_PATH
 export KBUILD_BUILD_TIMESTAMP=$(TZ=Asia/Jakarta date)
 CCV=$(echo $($(pwd)/gf-clang/bin/clang --version | head -n1))
-LDV=$(echo $($(pwd)/gf-clang/bin/ld.lld --version | head -n1))"
+LDV=$(echo $($(pwd)/gf-clang/bin/ld.lld --version | head -n1))
 export PATH=$(pwd)/gf-clang/bin:$PATH
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1}
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
