@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 export KBUILD_BUILD_USER=fadlyas07
 export ARCH=arm64 && export SUBARCH=arm64
-export CROSS_COMPILE="$(pwd)/gcc/bin/aarch64-linux-android-"
-export CROSS_COMPILE_ARM32="$(pwd)/gcc32/bin/arm-linux-androideabi-"
+export CROSS_COMPILE="$(pwd)/gcc/bin/aarch64-linux-gnu-"
+export CROSS_COMPILE_ARM32="$(pwd)/gcc32/bin/arm-maestro-linux-gnueabi-"
 export KBUILD_BUILD_TIMESTAMP=$(TZ=Asia/Jakarta date)
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1}
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out 2>&1| tee build.log
