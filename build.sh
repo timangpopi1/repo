@@ -4,7 +4,6 @@ export ARCH=arm64 && export SUBARCH=arm64
 export CROSS_COMPILE="$(pwd)/gcc/bin/aarch64-linux-android-"
 export CROSS_COMPILE_ARM32="$(pwd)/gcc32/bin/arm-linux-androideabi-"
 export KBUILD_BUILD_TIMESTAMP=$(TZ=Asia/Jakarta date)
-export PATH=$(pwd)/gcc/bin:$(pwd)/gcc32/bin:$PATH
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1}
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out 2>&1| tee build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz-dtb ]] ; then
