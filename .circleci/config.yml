@@ -8,7 +8,7 @@ jobs:
           command: |
            apt-get -y update && apt-get -y upgrade && apt-get -y install bc bison ca-certificates curl flex gcc \
            git libc6-dev libssl-dev make openssl python ssh wget zip
-           git clone -q https://github.com/fadlyas07/android_kernel_xiaomi_sdm660 --depth=1 -b Q kernel && cd kernel
+           git clone -q https://github.com/fadlyas07/kernel_xiaomi_sdm660 --depth=1 -b Q kernel && cd kernel
            sed -i 's/CONFIG_XIAOMI_NEW_CAMERA_BLOBS=y/# CONFIG_XIAOMI_NEW_CAMERA_BLOBS is not set/g' arch/arm64/configs/whyred_defconfig
            git clone -q https://github.com/fadlyas07/anykernel-3 --depth=1
            export codename=whyred-oldcam
