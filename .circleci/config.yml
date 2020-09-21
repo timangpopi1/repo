@@ -12,8 +12,7 @@ jobs:
            sed -i 's/CONFIG_XIAOMI_NEW_CAMERA_BLOBS=y/# CONFIG_XIAOMI_NEW_CAMERA_BLOBS is not set/g' arch/arm64/configs/whyred_defconfig
            git clone https://github.com/fadlyas07/anykernel-3 --depth=1
            export codename=whyred-oldcam
-           git clone --depth=1 https://github.com/arter97/arm64-gcc gcc
-           git clone --depth=1 https://github.com/arter97/arm32-gcc gcc32
+           git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 --depth=1 -b android-9.0.0_r45 origin_gcc &>/dev/null
+           git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 --depth=1 -b android-9.0.0_r45 origin_gcc32 &>/dev/null
            wget https://github.com/timangpopi1/repo/raw/master/build.sh
            chmod +x build.sh && bash ./build.sh whyred_defconfig
-           echo "when when"
