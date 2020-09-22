@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 export KBUILD_BUILD_USER=fadlyas07
 export ARCH=arm64 && export SUBARCH=arm64
-export PATH="$(pwd)/gcc/bin:$(pwd)/gcc32/bin:$PATH"
+export PATH="$(pwd)/snap/bin:$(pwd)/gcc/bin:$(pwd)/gcc32/bin:$PATH"
 export KBUILD_BUILD_TIMESTAMP=$(TZ=Asia/Jakarta date)
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1}
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
+CC=clang CLANG_TRIPLE=aarch64-linux-gnu- \
 CROSS_COMPILE=aarch64-linux-android- \
 CROSS_COMPILE_ARM32=arm-linux-androideabi- 2>&1| tee build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz-dtb ]] ; then
