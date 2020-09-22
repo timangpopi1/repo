@@ -2,6 +2,7 @@
 export KBUILD_BUILD_USER=fadlyas07
 export ARCH=arm64 && export SUBARCH=arm64
 export PATH="$(pwd)/snap/bin:$(pwd)/gcc/bin:$(pwd)/gcc32/bin:$PATH"
+export LD_LIBRARY_PATH="$(pwd)/snap/lib:$LD_LIBRARY_PATH"
 export KBUILD_BUILD_TIMESTAMP=$(TZ=Asia/Jakarta date)
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1}
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
