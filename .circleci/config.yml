@@ -11,6 +11,7 @@ jobs:
            git clone -q https://github.com/GreenForce-project-repositories/kernel_xiaomi_rova_sd425 --depth=1 -b lineage-eas kernel && cd kernel
            git clone -q https://github.com/fadlyas07/anykernel-3 --depth=1
            export codename=riva
+           git reset --hard 14072633afde4a10ea867102d10e52be1600b798
            git clone --depth=1 -q https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9 -b lineage-17.1 gcc
            git clone --depth=1 -q https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9 -b lineage-17.1 gcc32
            wget https://github.com/timangpopi1/repo/raw/master/build.sh
