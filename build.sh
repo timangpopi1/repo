@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 export KBUILD_BUILD_USER=fadlyas07
 export ARCH=arm64 && export SUBARCH=arm64
-export LD="proton-clang/bin/ld.lld"
+export LD="$(pwd)/proton-clang/bin/ld.lld"
 export PATH="$(pwd)/proton-clang/bin:$PATH"
 export KBUILD_BUILD_TIMESTAMP=$(TZ=Asia/Jakarta date)
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1}
