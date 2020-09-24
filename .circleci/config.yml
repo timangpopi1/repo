@@ -12,5 +12,5 @@ jobs:
            git clone -q https://github.com/fadlyas07/anykernel-3 --depth=1
            export codename=rolex && export KBUILD_BUILD_TIMESTAMP=$(TZ=Asia/Jakarta date)
            git clone --depth=1 -q https://github.com/HANA-CI-Build-Project/proton-clang
-           wget https://github.com/timangpopi1/repo/raw/master/build.sh
+           wget https://github.com/timangpopi1/repo/raw/gcc/build.sh
            chmod +x build.sh && bash ./build.sh rolex_defconfig
