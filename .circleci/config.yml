@@ -8,7 +8,7 @@ jobs:
           command: |
            apt-get -y update && apt-get -y upgrade && apt-get -y install bc bison ca-certificates curl flex gcc \
            git libc6-dev libssl-dev make openssl python ssh wget zip
-           git clone -q https://github.com/GreenForce-project-repositories/kernel_xiaomi_rova_sd425_4.9 -b staging/lineage-17.1 kernel && cd kernel
+           git clone -q https://github.com/Nick89786/msmkernel-4.9 kernel && cd kernel
            git clone -q https://github.com/fadlyas07/anykernel-3 --depth=1
            export codename=rolex && export KBUILD_BUILD_TIMESTAMP=$(TZ=Asia/Jakarta date)
            git clone --depth=1 -q https://github.com/HANA-CI-Build-Project/proton-clang
