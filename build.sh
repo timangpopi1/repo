@@ -3,11 +3,12 @@ git clone --depth=1 https://github.com/GreenForce-project-repositories/clang-11.
 export KBUILD_BUILD_USER=fadlyas07
 export ARCH=arm64 && export SUBARCH=arm64
 export PATH="$(pwd)/push/bin:$PATH"
+git apply ./campatch.patch
 export LD_LIBRARY_PATH=$(pwd)/push/lib:$LD_LIBRARY_PATH
 export CCV=$(push/bin/clang --version | head -n 1)
-export LDV=$(push/bin/ld.lld --version | head -n 1 | perl -pe 's/\(git.*?\)//gs' | sed 's/(compatible with [^)]*)//' | sed 's/[[:space:]]*$//')
+export LDV=$(push/bin/ld.lld --version | head -n 1 | perl -pe 's/\(.*?\)//gs' | sed 's/(compatible with [^)]*)//' | sed 's/[[:space:]]*$//')
 export KBUILD_BUILD_TIMESTAMP=$(TZ=Asia/Jakarta date)
-export KBUILD_COMPILER_STRING="${CCV}, ${LDV}"
+export KBUILD_COMPILER_STRING="${CCV} with ${LDV}"
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1}
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
 CC=clang AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy \
