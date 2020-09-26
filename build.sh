@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 git clone --depth=1 https://github.com/GreenForce-project-repositories/clang-11.0.0 push
+export codename=whyred-newcam
 export KBUILD_BUILD_USER=fadlyas07
 export ARCH=arm64 && export SUBARCH=arm64
 export PATH="$(pwd)/push/bin:$PATH"
@@ -7,7 +8,6 @@ git apply ./campatch.patch
 export LD_LIBRARY_PATH=$(pwd)/push/lib:$LD_LIBRARY_PATH
 export CCV=$(push/bin/clang --version | head -n 1)
 export LDV=$(push/bin/ld.lld --version | head -n 1 | perl -pe 's/\(.*?\)//gs' | sed 's/(compatible with [^)]*)//' | sed 's/[[:space:]]*$//')
-export KBUILD_BUILD_TIMESTAMP=$(TZ=Asia/Jakarta date)
 export KBUILD_COMPILER_STRING="${CCV} with ${LDV}"
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1}
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
