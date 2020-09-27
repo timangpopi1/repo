@@ -23,8 +23,7 @@ make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
 #CROSS_COMPILE=aarch64-linux-gnu- OBJDUMP=llvm-objdump \
 #STRIP=llvm-strip CROSS_COMPILE_ARM32=arm-linux-gnueabi- 2>&1| tee build.log
 CROSS_COMPILE_ARM32=arm-eabi- CROSS_COMPILE=aarch64-elf- AR=aarch64-elf-ar \
-NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=aarch64-elf-objdump \
-STRIP=aarch64-elf-strip 2>&1| tee build.log
+OBJDUMP=aarch64-elf-objdump STRIP=aarch64-elf-strip 2>&1| tee build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz-dtb ]] ; then
     curl -s -X POST "https://api.telegram.org/bot960007819:AAGjqN3UsMFc7iFMkc0Mj8owotH-oJchCag/sendMessage" -d chat_id="784548477" -d text="Test Failed, Please fix it now @fadlyas07!"
     curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot960007819:AAGjqN3UsMFc7iFMkc0Mj8owotH-oJchCag/sendDocument" -F chat_id="784548477"
