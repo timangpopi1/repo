@@ -2,8 +2,8 @@
 #git clone --depth=1 https://github.com/GreenForce-project-repositories/clang-11.0.0 push
 git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 -b android-9.0.0_r60 gcc
 git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 -b android-9.0.0_r60 gcc32
-#export codename=whyred-newcam
-export codename=whyred-oldcam
+export codename=whyred-newcam
+#export codename=whyred-oldcam
 export KBUILD_BUILD_USER=fadlyas07
 export KBUILD_BUILD_HOST=mwuehehehe
 export ARCH=arm64 && export SUBARCH=arm64
@@ -16,6 +16,7 @@ export PATH="$(pwd)/gcc/bin:$(pwd)/gcc32/bin:$PATH"
 if [[ ${codename} = "whyred-newcam" ]] ; then
     git apply ./campatch.patch
 fi
+git apply ./80mv_uv.patch
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1}
 #make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
 #CC=clang AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy \
