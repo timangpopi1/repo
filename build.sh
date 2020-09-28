@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #git clone --depth=1 https://github.com/GreenForce-project-repositories/clang-11.0.0 push
-git clone --depth=1 https://github.com/arter97/arm64-gcc gcc
-git clone --depth=1 https://github.com/arter97/arm32-gcc gcc32
+git clone --depth=1 https://github.com/timangpopi1/arm32-gcc gcc32
+git clone --depth=1 https://github.com/timangpopi1/arm64-gcc gcc
 export codename=whyred-newcam
 #export codename=whyred-oldcam
 export KBUILD_BUILD_USER=fadlyas07
