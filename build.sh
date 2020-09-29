@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-git clone --depth=1 https://github.com/HANA-CI-Build-Project/proton-clang push
+git clone --depth=1 https://github.com/crdroidmod/android_vendor_qcom_proprietary_llvm-arm-toolchain-ship_6.0.9 push
+git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 -b android-9.0.0_r45 gcc
+git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 -b android-9.0.0_r45 gcc32
 #git clone --depth=1 https://github.com/timangpopi1/arm32-gcc gcc32
 #git clone --depth=1 https://github.com/timangpopi1/arm64-gcc gcc
 export codename=whyred-newcam
@@ -8,8 +10,8 @@ export KBUILD_BUILD_USER=fadlyas07
 export KBUILD_BUILD_HOST=mwuehehehe
 export ARCH=arm64 && export SUBARCH=arm64
 #export PATH="$(pwd)/gcc/bin:$(pwd)/gcc32/bin:$PATH"
-export PATH="$(pwd)/push/bin:$PATH"
-#export LD_LIBRARY_PATH=$(pwd)/push/lib:$LD_LIBRARY_PATH
+export PATH="$(pwd)/push/bin:$(pwd)/gcc/bin:$(pwd)/gcc32/bin:$PATH"
+export LD_LIBRARY_PATH=$(pwd)/push/lib:$LD_LIBRARY_PATH
 export CCV=$(push/bin/clang --version | head -n 1)
 export LDV=$(push/bin/ld.lld --version | head -n 1 | perl -pe 's/\(git.*?\)//gs' | sed 's/(compatible with [^)]*)//' | sed 's/[[:space:]]*$//')
 export KBUILD_COMPILER_STRING="${CCV} with ${LDV}"
@@ -19,9 +21,8 @@ fi
 git apply ./80mv_uv.patch
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1}
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
-CC=clang AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \
-OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump \
-CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- 2>&1| tee build.log
+CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-android- \
+CROSS_COMPILE_ARM32=arm-linux-androideabi- 2>&1| tee build.log
 #make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
 #CROSS_COMPILE_ARM32=arm-eabi- CROSS_COMPILE=aarch64-elf- 2>&1| tee build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz-dtb ]] ; then
