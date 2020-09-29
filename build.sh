@@ -19,11 +19,9 @@ fi
 git apply ./80mv_uv.patch
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1}
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
-CC=clang AR=llvm-ar NM=llvm-nm LD=ld.lld STRIP=llvm-strip \
-OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump OBJSIZE=llvm-size \
-READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ \
-HOSTAR=llvm-ar CROSS_COMPILE=aarch64-linux-gnu- \
-CROSS_COMPILE_ARM32=arm-linux-gnueabi- 2>&1| tee build.log
+CC=clang AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \
+OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump \
+CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- 2>&1| tee build.log
 #make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
 #CROSS_COMPILE_ARM32=arm-eabi- CROSS_COMPILE=aarch64-elf- 2>&1| tee build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz-dtb ]] ; then
