@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-git clone --depth=1 https://github.com/crdroidmod/android_vendor_qcom_proprietary_llvm-arm-toolchain-ship_6.0.9 push
+git clone --depth=1 https://github.com/ThankYouMario/proprietary_vendor_qcom_sdclang-6.0_linux-x86 -b pie push
 git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 -b android-9.0.0_r45 gcc
 git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 -b android-9.0.0_r45 gcc32
 #git clone --depth=1 https://github.com/timangpopi1/arm32-gcc gcc32
@@ -10,7 +10,7 @@ export KBUILD_BUILD_USER=fadlyas07
 export KBUILD_BUILD_HOST=mwuehehehe
 export ARCH=arm64 && export SUBARCH=arm64
 #export PATH="$(pwd)/gcc/bin:$(pwd)/gcc32/bin:$PATH"
-export PATH="$(pwd)/push/bin:$(pwd)/gcc/bin:$(pwd)/gcc32/bin:$PATH"
+export PATH="$(pwd)/push/bin:$PATH"
 export LD_LIBRARY_PATH=$(pwd)/push/lib:$LD_LIBRARY_PATH
 export CCV=$(push/bin/clang --version | head -n 1)
 export LDV=$(push/bin/ld.lld --version | head -n 1 | perl -pe 's/\(git.*?\)//gs' | sed 's/(compatible with [^)]*)//' | sed 's/[[:space:]]*$//')
