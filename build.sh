@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-git clone --depth=1 https://github.com/HANA-CI-Build-Project/proton-clang push
+git clone --depth=1 https://github.com/kdrag0n/proton-clang push
 #git clone --depth=1 https://github.com/timangpopi1/arm32-gcc gcc32
 #git clone --depth=1 https://github.com/timangpopi1/arm64-gcc gcc
 export codename=whyred-newcam
