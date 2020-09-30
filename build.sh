@@ -14,10 +14,6 @@ export KBUILD_COMPILER_STRING="${CCV} with ${LDV}"
 if [[ ${codename} = "whyred-newcam" ]] ; then
     git apply ./campatch.patch
 fi
-if [[ ( ${codename} != "whyred-newcam" || "whyred-oldcam" ) ]] ; then
-    curl -s -X POST https://api.telegram.org/bot960007819:AAGjqN3UsMFc7iFMkc0Mj8owotH-oJchCag/sendMessage -d chat_id="784548477" -d text="Please plox, define correct build type!"
-    exit 1 ;
-fi
 git apply ./80mv_uv.patch
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1}
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
