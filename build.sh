@@ -1,28 +1,29 @@
 #!/usr/bin/env bash
-git clone --depth=1 https://github.com/ThankYouMario/proprietary_vendor_qcom_sdclang-6.0_linux-x86 -b pie push
-git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 -b android-9.0.0_r45 gcc
-git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 -b android-9.0.0_r45 gcc32
+git clone --depth=1 https://github.com/kdrag0n/proton-clang push
 #git clone --depth=1 https://github.com/timangpopi1/arm32-gcc gcc32
 #git clone --depth=1 https://github.com/timangpopi1/arm64-gcc gcc
 export codename=whyred-newcam
-#export codename=whyred-oldcam
 export KBUILD_BUILD_USER=fadlyas07
-export KBUILD_BUILD_HOST=mwuehehehe
 export ARCH=arm64 && export SUBARCH=arm64
 #export PATH="$(pwd)/gcc/bin:$(pwd)/gcc32/bin:$PATH"
 export PATH="$(pwd)/push/bin:$PATH"
-export LD_LIBRARY_PATH=$(pwd)/push/lib:$LD_LIBRARY_PATH
+#export LD_LIBRARY_PATH=$(pwd)/push/lib:$LD_LIBRARY_PATH
 export CCV=$(push/bin/clang --version | head -n 1)
 export LDV=$(push/bin/ld.lld --version | head -n 1 | perl -pe 's/\(git.*?\)//gs' | sed 's/(compatible with [^)]*)//' | sed 's/[[:space:]]*$//')
 export KBUILD_COMPILER_STRING="${CCV} with ${LDV}"
 if [[ ${codename} = "whyred-newcam" ]] ; then
     git apply ./campatch.patch
 fi
+if [[ ( ${codename} != "whyred-newcam" || "whyred-oldcam" ) ]] ; then
+    curl -s -X POST https://api.telegram.org/bot960007819:AAGjqN3UsMFc7iFMkc0Mj8owotH-oJchCag/sendMessage -d chat_id="784548477" -d text="Please plox, define correct build type!"
+    exit 1 ;
+fi
 git apply ./80mv_uv.patch
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1}
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
-CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-android- \
-CROSS_COMPILE_ARM32=arm-linux-androideabi- 2>&1| tee build.log
+AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy \
+OBJDUMP=llvm-objdump STRIP=llvm-strip CROSS_COMPILE=aarch64-linux-gnu- \
+CROSS_COMPILE_ARM32=arm-linux-gnueabi- 2>&1| tee build.log
 #make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
 #CROSS_COMPILE_ARM32=arm-eabi- CROSS_COMPILE=aarch64-elf- 2>&1| tee build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz-dtb ]] ; then
