@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
-git clone --depth=1 https://github.com/GreenForce-project-repositories/clang-11.0.0 push
+git clone --depth=1 https://github.com/HANA-CI-Build-Project/proton-clang push
 #git clone --depth=1 https://github.com/timangpopi1/arm32-gcc gcc32
 #git clone --depth=1 https://github.com/timangpopi1/arm64-gcc gcc
 export codename=whyred-newcam
+#export codename=whyred-oldcam
 export KBUILD_BUILD_USER=fadlyas07
+export KBUILD_BUILD_HOST=mwuehehehe
 export ARCH=arm64 && export SUBARCH=arm64
 #export PATH="$(pwd)/gcc/bin:$(pwd)/gcc32/bin:$PATH"
 export PATH="$(pwd)/push/bin:$PATH"
-export LD_LIBRARY_PATH=$(pwd)/push/lib:$LD_LIBRARY_PATH
+#export LD_LIBRARY_PATH=$(pwd)/push/lib:$LD_LIBRARY_PATH
 export CCV=$(push/bin/clang --version | head -n 1)
 export LDV=$(push/bin/ld.lld --version | head -n 1 | perl -pe 's/\(git.*?\)//gs' | sed 's/(compatible with [^)]*)//' | sed 's/[[:space:]]*$//')
 export KBUILD_COMPILER_STRING="${CCV} with ${LDV}"
@@ -17,8 +19,8 @@ fi
 git apply ./80mv_uv.patch
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1}
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
-AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy \
-OBJDUMP=llvm-objdump STRIP=llvm-strip CROSS_COMPILE=aarch64-linux-gnu- \
+CC=clang AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \
+OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump CROSS_COMPILE=aarch64-linux-gnu- \
 CROSS_COMPILE_ARM32=arm-linux-gnueabi- 2>&1| tee build.log
 #make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
 #CROSS_COMPILE_ARM32=arm-eabi- CROSS_COMPILE=aarch64-elf- 2>&1| tee build.log
