@@ -8,7 +8,7 @@ jobs:
           command: |
            apt-get -y update && apt-get -y upgrade && apt-get -y install bc bison ca-certificates curl flex gcc \
            git libc6-dev libssl-dev make openssl python ssh wget zip
-           git clone -q https://github.com/GreenForce-project-repositories/kernel_xiaomi_rova_sd425 --depth=1 -b lineage-lto kernel && cd kernel
+           git clone -q https://github.com/GreenForce-project-repositories/kernel_xiaomi_rova_sd425 --depth=1 -b lineage-17.1 kernel && cd kernel
            git clone -q https://github.com/fadlyas07/anykernel-3 --depth=1
            export codename=riva && export KBUILD_BUILD_TIMESTAMP=$(TZ=Asia/Jakarta date)
            wget https://github.com/timangpopi1/repo/raw/master/build.sh
