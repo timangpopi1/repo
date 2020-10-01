@@ -17,5 +17,5 @@ fi
 curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDocument" -F chat_id="1385092591"
 mv $(pwd)/out/arch/arm64/boot/Image.gz-dtb $(pwd)/anykernel-3
 cd $(pwd)/anykernel-3 && zip -r9 perf-"$codename"-"$(TZ=Asia/Jakarta date +'%d%m%y')".zip *
-cd .. && curl -F document=@$(echo $(pwd)/anykernel-3/*.zip) "https://api.telegram.org/bot${token}/sendDocument" -F caption="Test Build $(cat $(pwd)/out/.config | grep Linux/arm64 | cut -d " " -f3) for #${codename} success at commit $(git log --pretty=format:"%h (\"%s\")" -1)" -F chat_id="1385092591"
+cd .. && curl -F document=@$(echo $(pwd)/anykernel-3/*.zip) "https://api.telegram.org/bot${token}/sendDocument" -F caption="New #${codename} Test Build with $(cat $(pwd)/out/.config | grep Linux/arm64 | cut -d " " -f3) success at commit $(git log --pretty=format:"%h (\"%s\")" -1)" -F chat_id="1385092591"
 rm -rf out $(pwd)/anykernel-3/*.zip $(pwd)/anykernel-3/zImage
