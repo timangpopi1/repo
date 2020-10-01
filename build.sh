@@ -2,7 +2,6 @@
 export token="1355238694:AAElWMuJhDKoE9Ci6INuD86RXwpo84uTt7c"
 git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 -b android-9.0.0_r50 gcc
 git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 -b android-9.0.0_r50 gcc32
-export KBUILD_BUILD_USER=fadlyas07
 export ARCH=arm64 && export SUBARCH=arm64
 export PATH="$(pwd)/gcc/bin:$(pwd)/gcc32/bin:$PATH"
 export KBUILD_BUILD_TIMESTAMP=$(TZ=Asia/Jakarta date)
