@@ -10,9 +10,9 @@ function build_now() {
     export KBUILD_BUILD_USER=greenforce && export KBUILD_BUILD_HOST=nightly
     export PATH="$(pwd)/gcc/bin:$(pwd)/gcc32/bin:$PATH"
     make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
-    CROSS_COMPILE=aarch64-elf- CROSS_COMPILE_ARM32=arm-eabi- 2>&1| tee build.log
+    CROSS_COMPILE=aarch64-elf- CROSS_COMPILE_ARM32=arm-eabi- >> build.log
 }
-case ${codename}  in
+case ${codename} in
 *whyred*)
         git apply ./80mv_uv.patch
         if [[ ${codename} = "whyred-newcam" ]] ; then
@@ -26,7 +26,7 @@ if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz-dtb ]] ; then
     curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="Build failed! at branch $(git rev-parse --abbrev-ref HEAD)"
   exit 1 ;
 fi
-curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${channel_id}
+curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${my_id}
 mv $(pwd)/out/arch/arm64/boot/Image.gz-dtb $(pwd)/anykernel-3
 cd $(pwd)/anykernel-3 && zip -r9 greenforce-Nightly-"$codename"-"$(TZ=Asia/Jakarta date +'%d%m%y')".zip *
 cd .. && curl -F chat_id==${channel_id} -F "disable_web_page_preview=true" -F "parse_mode=markdown" -F document=@$(echo $(pwd)/anykernel-3/*.zip) "https://api.telegram.org/bot${token}/sendDocument" -F caption="
