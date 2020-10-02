@@ -1,17 +1,29 @@
 #!/usr/bin/env bash
 git clone --quiet --depth=1 ${target_repo} -b ${target_branch} kernel && cd kernel
 git clone --quiet --depth=1 https://github.com/fadlyas07/anykernel-3
-git clone --quiet --depth=1 https://github.com/timangpopi1/arm64-gcc gcc
-git clone --quiet --depth=1 https://github.com/timangpopi1/arm32-gcc gcc32
 export ARCH=arm64 && export SUBARCH=arm64
 trigger_sha="$(git rev-parse HEAD)" && commit_msg="$(git log --pretty=format:'%s' -1)"
 my_id="1385092591" && channel_id="-1001482549527" && token="1355238694:AAElWMuJhDKoE9Ci6INuD86RXwpo84uTt7c"
-function build_now() {
-    export KBUILD_BUILD_USER=greenforce && export KBUILD_BUILD_HOST=nightly
-    export PATH="$(pwd)/gcc/bin:$(pwd)/gcc32/bin:$PATH"
-    make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
-    CROSS_COMPILE=aarch64-elf- CROSS_COMPILE_ARM32=arm-eabi- >> build.log
-}
+if [[ "$2" == "clang" ]] ; then
+    git clone --quiet --depth=1 https://github.com/kdrag0n/proton-clang
+    function build_now() {
+        export PATH="$(pwd)/proton-clang/bin:$PATH"
+        make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
+        CC=clang AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump \
+        CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- STRIP=llvm-strip
+    }
+elif [[ "$2" == "gcc" ]] ; then
+    git clone --quiet --depth=1 https://github.com/timangpopi1/arm64-gcc gcc
+    git clone --quiet --depth=1 https://github.com/timangpopi1/arm32-gcc gcc32
+    function build_now() {
+        export PATH="$(pwd)/gcc/bin:$(pwd)/gcc32/bin:$PATH"
+        make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
+        CROSS_COMPILE=aarch64-elf- CROSS_COMPILE_ARM32=arm-eabi- >> build.log
+    }
+else
+    curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="Please set your toochains when will run script!"
+  exit 1 ;
+fi
 case ${codename} in
 *whyred*)
         git apply ./80mv_uv.patch
@@ -20,6 +32,7 @@ case ${codename} in
         fi
         ;;
 esac
+export KBUILD_BUILD_USER=greenforce && export KBUILD_BUILD_HOST=nightly
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1} && build_now
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz-dtb ]] ; then
     curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${my_id}
