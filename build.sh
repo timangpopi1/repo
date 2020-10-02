@@ -21,14 +21,15 @@ elif [[ "$2" == "gcc" ]] ; then
         CROSS_COMPILE=aarch64-elf- CROSS_COMPILE_ARM32=arm-eabi-
     }
 else
-    curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="Please set your toochains when will run script!"
+    curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="Please set your toochains on args!"
   exit 1 ;
 fi
 case ${codename} in
-*whyred*)
+*W*)
         git apply ./80mv_uv.patch
         if [[ ${codename} = "whyred-newcam" ]] ; then
             git apply ./campatch.patch
+            curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="New-cam patch success applied!"
         fi
         ;;
 esac
