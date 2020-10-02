@@ -8,7 +8,9 @@ jobs:
           command: |
            apt-get -y update && apt-get -y upgrade && apt-get -y install bc bison ca-certificates curl flex gcc \
            git libc6-dev libssl-dev make openssl python ssh wget zip
-           export codename="Wnewcam"
+           export codename="whyred-(newcam)"
+           #export codename="whyred-(oldcam)"
+           #export codename="rolex"
            export defconfig="whyred_defconfig"
            export target_branch="lineage-eas"
            export target_repo="https://github.com/GreenForce-project-repositories/kernel_xiaomi_whyred_sdm660"
