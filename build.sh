@@ -27,7 +27,7 @@ fi
 case ${codename} in
 *W*)
         git apply ./80mv_uv.patch
-        if [[ ${codename} = "whyred-newcam" ]] ; then
+        if [[ ${codename} = "Wnewcam" ]] ; then
             git apply ./campatch.patch
             curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="New-cam patch success applied!"
         fi
