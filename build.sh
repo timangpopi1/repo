@@ -1,24 +1,34 @@
 #!/usr/bin/env bash
-export channel_id="-1001482549527"
-export token="1355238694:AAElWMuJhDKoE9Ci6INuD86RXwpo84uTt7c"
-git clone --depth=1 https://github.com/crdroidmod/android_prebuilts_clang_host_linux-x86_clang-5799447 push
-git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 -b android-9.0.0_r50 gcc
-git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 -b android-9.0.0_r50 gcc32
-export KBUILD_BUILD_USER=fadlyas07
+git clone --quiet --depth=1 ${target_repo} -b ${target_branch} kernel && cd kernel
+git clone --quiet --depth=1 https://github.com/fadlyas07/anykernel-3
+git clone --quiet --depth=1 https://github.com/timangpopi1/arm64-gcc gcc
+git clone --quiet --depth=1 https://github.com/timangpopi1/arm32-gcc gcc32
 export ARCH=arm64 && export SUBARCH=arm64
-export PATH="$(pwd)/push/bin:$(pwd)/gcc/bin:$(pwd)/gcc32/bin:$PATH"
-export LD_LIBRARY_PATH="$(pwd)/push/lib:$LD_LIBRARY_PATH"
-make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1}
-make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
-CC=clang CLANG_TRIPLE=aarch64-linux-gnu- \
-CROSS_COMPILE=aarch64-linux-android- CROSS_COMPILE_ARM32=arm-linux-androideabi- 2>&1| tee build.log
+trigger_sha="$(git rev-parse HEAD)" && commit_msg="$(git log --pretty=format:'%s' -1)"
+my_id="1385092591" && channel_id="-1001482549527" && token="1355238694:AAElWMuJhDKoE9Ci6INuD86RXwpo84uTt7c"
+function build_now() {
+    export KBUILD_BUILD_USER=greenforce && export KBUILD_BUILD_HOST=nightly
+    export PATH="$(pwd)/gcc/bin:$(pwd)/gcc32/bin:$PATH"
+    make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
+    CROSS_COMPILE=aarch64-elf- CROSS_COMPILE_ARM32=arm-eabi- 2>&1| tee build.log
+}
+case ${codename}  in
+*whyred*)
+        git apply ./80mv_uv.patch
+        if [[ ${codename} = "whyred-newcam" ]] ; then
+            git apply ./campatch.patch
+        fi
+        ;;
+esac
+make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1} && build_now
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz-dtb ]] ; then
-    curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${channel_id} -d text="Test Failed, Please fix it now @fadlyas07!"
-    curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${channel_id}
+    curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${my_id}
+    curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="Build failed! at branch $(git rev-parse --abbrev-ref HEAD)"
   exit 1 ;
 fi
 curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${channel_id}
 mv $(pwd)/out/arch/arm64/boot/Image.gz-dtb $(pwd)/anykernel-3
-cd $(pwd)/anykernel-3 && zip -r9 GreenForce-"$codename"-"$(TZ=Asia/Jakarta date +'%d%m%y')".zip *
-cd .. && curl -F document=@$(echo $(pwd)/anykernel-3/*.zip) "https://api.telegram.org/bot${token}/sendDocument" -F caption="New build for #${codename}, on Linux $(cat $(pwd)/out/.config | grep Linux/arm64 | cut -d " " -f3) success at commit $(git log --pretty=format:"%h (\"%s\")" -1)" -F chat_id=${channel_id}
+cd $(pwd)/anykernel-3 && zip -r9 greenforce-Nightly-"$codename"-"$(TZ=Asia/Jakarta date +'%d%m%y')".zip *
+cd .. && curl -F chat_id==${channel_id} -F "disable_web_page_preview=true" -F "parse_mode=markdown" -F document=@$(echo $(pwd)/anykernel-3/*.zip) "https://api.telegram.org/bot${token}/sendDocument" -F caption="
+New #${codename} build ($(cat $(pwd)/out/.config | grep Linux/arm64 | cut -d " " -f3)) success at commit $(echo ${trigger_sha} | cut -c1-8) (\"[${commit_msg}](${target_repo}/commits/${trigger_sha})\") | <b>SHA1:</b> $(sha1sum $(echo $(pwd)/anykernel-3/*.zip ) | awk '{ print $1 }')."
 rm -rf out $(pwd)/anykernel-3/*.zip $(pwd)/anykernel-3/zImage
