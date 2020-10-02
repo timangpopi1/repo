@@ -18,7 +18,7 @@ elif [[ "$2" == "gcc" ]] ; then
     function build_now() {
         export PATH="$(pwd)/gcc/bin:$(pwd)/gcc32/bin:$PATH"
         make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
-        CROSS_COMPILE=aarch64-elf- CROSS_COMPILE_ARM32=arm-eabi- >> build.log
+        CROSS_COMPILE=aarch64-elf- CROSS_COMPILE_ARM32=arm-eabi-
     }
 else
     curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="Please set your toochains when will run script!"
@@ -33,7 +33,7 @@ case ${codename} in
         ;;
 esac
 export KBUILD_BUILD_USER=greenforce && export KBUILD_BUILD_HOST=nightly
-make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1} && build_now
+make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1} && build_now >> build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz-dtb ]] ; then
     curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${my_id}
     curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="Build failed! at branch $(git rev-parse --abbrev-ref HEAD)"
