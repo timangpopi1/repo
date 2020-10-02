@@ -30,5 +30,5 @@ curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDoc
 mv $(pwd)/out/arch/arm64/boot/Image.gz-dtb $(pwd)/anykernel-3
 cd $(pwd)/anykernel-3 && zip -r9 greenforce-Nightly-"$codename"-"$(TZ=Asia/Jakarta date +'%d%m%y')".zip *
 cd .. && curl -F "disable_web_page_preview=true" -F "parse_mode=markdown" -F document=@$(echo $(pwd)/anykernel-3/*.zip) "https://api.telegram.org/bot${token}/sendDocument" -F caption="
-New #${codename} build ($(cat $(pwd)/out/.config | grep Linux/arm64 | cut -d " " -f3)) success at commit $(echo ${trigger_sha} | cut -c 1-8) ([${commit_msg}](${target_repo}/commits/${trigger_sha}) | <b>SHA1:</b> $(sha1sum $(echo $(pwd)/anykernel-3/*.zip ) | awk '{ print $1 }')."  -F chat_id=${channel_id}
+new #${codename} build ($(cat $(pwd)/out/.config | grep Linux/arm64 | cut -d " " -f3)) success at commit <code>$(echo ${trigger_sha} | cut -c 1-8)</code> (\"[${commit_msg}](${target_repo}/commit/${trigger_sha})\") | <b>SHA1:</b> $(sha1sum $(echo $(pwd)/anykernel-3/*.zip ) | awk '{ print $1 }')."  -F chat_id=${channel_id}
 rm -rf out $(pwd)/anykernel-3/*.zip $(pwd)/anykernel-3/zImage
