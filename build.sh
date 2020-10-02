@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 export token="1355238694:AAElWMuJhDKoE9Ci6INuD86RXwpo84uTt7c"
-git clone --depth=1 https://github.com/arter97/arm64-gcc gcc
-git clone --depth=1 https://github.com/arter97/arm32-gcc gcc32
+git clone --depth=1 https://github.com/timangpopi1/arm64-gcc gcc
+git clone --depth=1 https://github.com/timangpopi1/arm32-gcc gcc32
 export KBUILD_BUILD_USER=fadlyas07
 export ARCH=arm64 && export SUBARCH=arm64
 #export PATH="$(pwd)/push/bin:$(pwd)/gcc/bin:$(pwd)/gcc32/bin:$PATH"
