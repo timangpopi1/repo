@@ -27,7 +27,7 @@ fi
 case ${codename} in
 *whyred*)
         git apply ./80mv_uv.patch
-        if [[ ${codename} = "whyred-(newcam)" ]] ; then
+        if [[ ${codename} = "whyred-newcam" ]] ; then
             git apply ./campatch.patch
             curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="New-cam patch success applied!"
         fi
@@ -42,7 +42,7 @@ if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz-dtb ]] ; then
 fi
 curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${my_id}
 mv $(pwd)/out/arch/arm64/boot/Image.gz-dtb $(pwd)/anykernel-3
-cd $(pwd)/anykernel-3 && zip -r9 greenforce-Nightly-"$codename"-"$(TZ=Asia/Jakarta date +'%d%m%y')".zip *
+cd $(pwd)/anykernel-3 && zip -r9 greenforce-Nightly-"${codename}"-"$(TZ=Asia/Jakarta date +'%d%m%y')".zip *
 cd .. && curl -F "disable_web_page_preview=true" -F "parse_mode=markdown" -F document=@$(echo $(pwd)/anykernel-3/*.zip) "https://api.telegram.org/bot${token}/sendDocument" -F caption="
 New #${codename} build ($(cat $(pwd)/out/.config | grep Linux/arm64 | cut -d " " -f3)) success at commit \`$(echo ${trigger_sha} | cut -c 1-8)\` (\"[${commit_msg}](${target_repo}/commit/${trigger_sha})\") | **SHA1:** \`$(sha1sum $(echo $(pwd)/anykernel-3/*.zip ) | awk '{ print $1 }').\`" -F chat_id=${channel_id}
 rm -rf out $(pwd)/anykernel-3/*.zip $(pwd)/anykernel-3/zImage
