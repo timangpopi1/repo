@@ -23,15 +23,6 @@ else
     curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="Please set your toochains on args!"
   exit 1 ;
 fi
-case ${codename} in
-*whyred*)
-        git apply ./80mv_uv.patch
-        if [[ ${codename} = "newcam(whyred)" ]] ; then
-            git apply ./campatch.patch
-            curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="New-cam patch success to applied!"
-        fi
-        ;;
-esac
 export KBUILD_BUILD_USER=greenforce && export KBUILD_BUILD_HOST=nightly
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1} && build_now >> build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz-dtb ]] ; then
@@ -43,5 +34,5 @@ curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDoc
 mv $(pwd)/out/arch/arm64/boot/Image.gz-dtb $(pwd)/anykernel-3
 cd $(pwd)/anykernel-3 && zip -r9 "${KBUILD_BUILD_USER}"-"${KBUILD_BUILD_HOST}"-"${codename}"-"$(TZ=Asia/Jakarta date +'%d%m%y')".zip *
 cd .. && curl -F "disable_web_page_preview=true" -F "parse_mode=html" -F document=@$(echo $(pwd)/anykernel-3/*.zip) "https://api.telegram.org/bot${token}/sendDocument" -F caption="
-New #${codename} build (Linux $(cat $(pwd)/out/.config | grep Linux/arm64 | cut -d " " -f3)) <b>success</b> at commit <code>$(echo ${trigger_sha} | cut -c 1-8)</code> (\"<a href='${target_repo}/commit/${trigger_sha}'>${commit_msg}</a>\") | <b>SHA1:</b> <code>$(sha1sum $(echo $(pwd)/anykernel-3/*.zip ) | awk '{ print $1 }').</code>" -F chat_id=${channel_id}
-rm -rf out $(pwd)/anykernel-3/*.zip $(pwd)/anykernel-3/zImage
+New #${codename} build is available! ($(cat $(pwd)/out/.config | grep Linux/arm64 | cut -d " " -f3)) <b>success</b> at commit <code>$(echo ${trigger_sha} | cut -c 1-8)</code> (\"<a href='${target_repo}/commit/${trigger_sha}'>${commit_msg}</a>\") | <b>SHA1:</b> <code>$(sha1sum $(echo $(pwd)/anykernel-3/*.zip ) | awk '{ print $1 }').</code>" -F chat_id=${channel_id}
+rm -rf out $(pwd)/anykernel-3/*.zip $(pwd)/anykernel-3/zImage $(pwd)/*.log
