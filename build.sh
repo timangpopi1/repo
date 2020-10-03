@@ -7,6 +7,7 @@ if [[ "$2" == "clang" ]] ; then
     git clone --quiet --depth=1 https://github.com/greenforce-project/clang-11.0.0 gf
     function build_now() {
         export PATH="$(pwd)/gf/bin:$PATH"
+        export LD_LIBRARY_PATH="$(pwd)/gf/lib:$LD_LIBRARY_PATH"
         make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
         CC=clang AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump \
         CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- STRIP=llvm-strip
