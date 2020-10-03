@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-git clone --quiet --depth=1 ${target_repo} -b ${target_branch} kernel && cd kernel
 git clone --quiet --depth=1 https://github.com/fadlyas07/anykernel-3
 export ARCH=arm64 && export SUBARCH=arm64
 trigger_sha="$(git rev-parse HEAD)" && commit_msg="$(git log --pretty=format:'%s' -1)"
@@ -29,7 +28,7 @@ case ${codename} in
         git apply ./80mv_uv.patch
         if [[ ${codename} = "newcam(whyred)" ]] ; then
             git apply ./campatch.patch
-            curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="New-cam patch success applied!"
+            curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="New-cam patch success to applied!"
         fi
         ;;
 esac
@@ -42,7 +41,7 @@ if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz-dtb ]] ; then
 fi
 curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${my_id}
 mv $(pwd)/out/arch/arm64/boot/Image.gz-dtb $(pwd)/anykernel-3
-cd $(pwd)/anykernel-3 && zip -r9 greenforce-Nightly-"${codename}"-"$(TZ=Asia/Jakarta date +'%d%m%y')".zip *
-cd .. && curl -F "disable_web_page_preview=true" -F "parse_mode=markdown" -F document=@$(echo $(pwd)/anykernel-3/*.zip) "https://api.telegram.org/bot${token}/sendDocument" -F caption="
-New #${codename} build ($(cat $(pwd)/out/.config | grep Linux/arm64 | cut -d " " -f3)) success at commit \`$(echo ${trigger_sha} | cut -c 1-8)\` (\"[${commit_msg}](${target_repo}/commit/${trigger_sha})\") | **SHA1:** \`$(sha1sum $(echo $(pwd)/anykernel-3/*.zip ) | awk '{ print $1 }').\`" -F chat_id=${channel_id}
+cd $(pwd)/anykernel-3 && zip -r9 "${KBUILD_BUILD_USER}"-"${KBUILD_BUILD_HOST}"-"${codename}"-"$(TZ=Asia/Jakarta date +'%d%m%y')".zip *
+cd .. && curl -F "disable_web_page_preview=true" -F "parse_mode=html" -F document=@$(echo $(pwd)/anykernel-3/*.zip) "https://api.telegram.org/bot${token}/sendDocument" -F caption="
+New #${codename} build (Linux $(cat $(pwd)/out/.config | grep Linux/arm64 | cut -d " " -f3)) success at commit $(echo ${trigger_sha} | cut -c 1-8) (\"<a href='${target_repo}/commit/${trigger_sha}'>${commit_msg}</a>\") | SHA1: $(sha1sum $(echo $(pwd)/anykernel-3/*.zip ) | awk '{ print $1 }')." -F chat_id=${channel_id}
 rm -rf out $(pwd)/anykernel-3/*.zip $(pwd)/anykernel-3/zImage
