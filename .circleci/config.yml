@@ -8,12 +8,40 @@ jobs:
           command: |
            apt-get -y update && apt-get -y upgrade && apt-get -y install bc bison ca-certificates curl flex gcc \
            git libc6-dev libssl-dev make openssl python ssh wget zip
-           export codename="whyred-(newcam)"
-           #export codename="whyred-(oldcam)"
-           #export codename="rolex"
-           export defconfig="whyred_defconfig"
-           export target_branch="lineage-eas"
-           export target_repo="https://github.com/GreenForce-project-repositories/kernel_xiaomi_whyred_sdm660"
-           git clone --quiet --depth=1 ${target_repo} -b ${target_branch} kernel && cd kernel
-           wget https://github.com/timangpopi1/repo/raw/master/build.sh
-           chmod +x build.sh && bash ./build.sh $defconfig clang
+           msm_test=1
+           my_project="https://github.com/greenforce-project"
+           wget https://github.com/timangpopi1/repo/raw/master/build.sh 
+           ##---------------------------&&---------------------------##
+           if [[ ${msm_test} == 1 ]] ; then
+               export target_branch="lineage-17.1"
+               export target_repo="kernel_xiaomi_rova_sd425"
+               git clone --quiet --depth=1 ${my_project}/${target_repo} -b ${target_branch} kernel && cd kernel
+               ##---------------------------&&---------------------------##
+               export codename="rolex"
+               export defconfig="rolex_defconfig"
+               chmod +x build.sh && bash ./build.sh $defconfig gcc
+               ##---------------------------&&---------------------------##
+               unset codename
+               export codename="riva"
+               unset defconfig
+               export defconfig="riva_defconfig"
+               chmod +x build.sh && bash ./build.sh $defconfig gcc
+               ##---------------------------&&---------------------------##
+           else
+               export target_branch="lineage-eas"
+               export target_repo="kernel_xiaomi_whyred_sdm660"
+               git clone --quiet --depth=1 ${my_project}/${target_repo} -b ${target_branch} kernel && cd kernel
+               git apply ./80mv_uv.patch
+               ##---------------------------&&---------------------------##
+               export codename="whyred-(oldcam)"
+               export defconfig="whyred_defconfig"
+               chmod +x build.sh && bash ./build.sh $defconfig clang
+               ##---------------------------&&---------------------------##
+               git apply ./campatch.patch
+               unset codename
+               export codename="whyred-(newcam)"
+               unset defconfig
+               export defconfig="whyred_defconfig"
+               chmod +x build.sh && bash ./build.sh $defconfig gcc
+               ##---------------------------&&---------------------------##
+           fi
