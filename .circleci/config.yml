@@ -7,7 +7,7 @@ jobs:
       - run:
           command: |
            apt-get -y update && apt-get -y upgrade && apt-get -y install bc bison ca-certificates curl flex gcc \
-           git libc6-dev libssl-dev make openssl python ssh wget zip &> dev/null
+           git libc6-dev libssl-dev make openssl python ssh wget zip >> ubuntu.log
            msm_test=1
            my_project="https://github.com/greenforce-project"
            ##---------------------------&&---------------------------##
@@ -15,7 +15,7 @@ jobs:
                export target_branch="lineage-17.1"
                export target_repo="kernel_xiaomi_rova_sd425"
                git clone --quiet --depth=1 ${my_project}/${target_repo} -b ${target_branch} kernel && cd kernel
-               wget https://github.com/timangpopi1/repo/raw/master/build.sh &> dev/null
+               wget https://github.com/timangpopi1/repo/raw/master/build.sh
                ##---------------------------&&---------------------------##
                export codename="rolex"
                export defconfig="rolex_defconfig"
@@ -31,7 +31,7 @@ jobs:
                export target_branch="lineage-eas"
                export target_repo="kernel_xiaomi_whyred_sdm660"
                git clone --quiet --depth=1 ${my_project}/${target_repo} -b ${target_branch} kernel && cd kernel
-               wget https://github.com/timangpopi1/repo/raw/master/build.sh &> dev/null
+               wget https://github.com/timangpopi1/repo/raw/master/build.sh
                git apply ./80mv_uv.patch
                ##---------------------------&&---------------------------##
                export codename="whyred-(oldcam)"
