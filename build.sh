@@ -7,6 +7,9 @@ if [[ "$2" == "clang" ]] ; then
     git clone --quiet --depth=1 https://github.com/kdrag0n/proton-clang
     function build_now() {
         export PATH="$(pwd)/proton-clang/bin:$PATH"
+        export CCV="$(proton-clang/bin/clang --version | head -n 1)"
+        export LDV="$(proton-clang/bin/ld.lld --version | head -n 1 | perl -pe 's/\(git.*?\)//gs' | sed 's/(compatible with [^)]*)//' | sed 's/[[:space:]]*$//')"
+        export KBUILD_COMPILER_STRING="${CCV} with ${LDV}"
         make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
         CC=clang AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump \
         CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- STRIP=llvm-strip
@@ -24,7 +27,7 @@ else
   exit 1 ;
 fi
 export KBUILD_BUILD_USER=greenforce && export KBUILD_BUILD_HOST=nightly
-make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1} && build_now >> build.log
+make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1} && build_now &> build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz-dtb ]] ; then
     curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${my_id}
     curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="Build failed! at branch $(git rev-parse --abbrev-ref HEAD)"
