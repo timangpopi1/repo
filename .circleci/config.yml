@@ -32,7 +32,8 @@ jobs:
                export target_repo="kernel_xiaomi_whyred_sdm660"
                git clone --quiet --depth=1 ${my_project}/${target_repo} -b ${target_branch} kernel && cd kernel
                wget https://github.com/timangpopi1/repo/raw/master/build.sh
-               git apply ./80mv_uv.patch
+               git revert -n ec66c6ac9481e8a5cec2c06b73742267a4e5becf
+               git apply ./80mv_uv.patch && git apply ./oc.patch
                ##---------------------------&&---------------------------##
                export codename="whyred-(oldcam)"
                export defconfig="whyred_defconfig"
