@@ -37,13 +37,13 @@ jobs:
                ##---------------------------&&---------------------------##
                export codename="whyred-(oldcam)"
                export defconfig="whyred_defconfig"
-               chmod +x build.sh && bash ./build.sh $defconfig gcc
+               chmod +x build.sh && bash ./build.sh $defconfig clang
                ##---------------------------&&---------------------------##
                unset codename
                export codename="whyred-(newcam)"
                unset defconfig
                export defconfig="whyred_defconfig"
                git apply campatch.patch
-               chmod +x build.sh && bash ./build.sh $defconfig gcc
+               chmod +x build.sh && bash ./build.sh $defconfig clang
                ##---------------------------&&---------------------------##
            fi
