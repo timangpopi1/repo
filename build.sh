@@ -4,7 +4,7 @@ export ARCH=arm64 && export SUBARCH=arm64
 trigger_sha="$(git rev-parse HEAD)" && commit_msg="$(git log --pretty=format:'%s' -1)"
 my_id="1385092591" && channel_id="-1001482549527" && token="1355238694:AAElWMuJhDKoE9Ci6INuD86RXwpo84uTt7c"
 if [[ "$2" == "clang" ]] ; then
-    git clone --quiet --depth=1 https://github.com/kdrag0n/proton-clang
+    git clone --quiet --depth=1 https://github.com/greenforce-project/clang-11.0.0 proton-clang
     function build_now() {
         export PATH="$(pwd)/proton-clang/bin:$PATH"
         export CCV="$(proton-clang/bin/clang --version | head -n 1)"
