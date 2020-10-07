@@ -28,10 +28,12 @@ jobs:
                chmod +x build.sh && bash ./build.sh $defconfig gcc
                ##---------------------------&&---------------------------##
            else
-               export target_branch="master"
+               export target_branch="lineage-eas"
                export target_repo="kernel_xiaomi_whyred_sdm660"
                git clone --quiet --depth=1 ${my_project}/${target_repo} -b ${target_branch} kernel && cd kernel
                wget https://github.com/timangpopi1/repo/raw/master/build.sh
+               wget https://github.com/greenforce-project/kernel_xiaomi_whyred_sdm660/raw/04cb64e15d4780e88363f5e50c3afac8e8d58464/oc.patch
+               git apply 80mv_uv.patch && git apply oc.patch
                ##---------------------------&&---------------------------##
                export codename="whyred-(oldcam)"
                export defconfig="whyred_defconfig"
@@ -41,6 +43,7 @@ jobs:
                export codename="whyred-(newcam)"
                unset defconfig
                export defconfig="whyred_defconfig"
+               git apply campatch.patch
                chmod +x build.sh && bash ./build.sh $defconfig gcc
                ##---------------------------&&---------------------------##
            fi
