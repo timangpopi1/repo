@@ -7,6 +7,7 @@ if [[ "$2" == "clang" ]] ; then
     git clone --quiet --depth=1 https://github.com/greenforce-project/clang-11.0.0 proton-clang
     function build_now() {
         export PATH="$(pwd)/proton-clang/bin:$PATH"
+        export LD_LIBRARY_PATH="$(pwd)/proton-clang/lib:$LD_LIBRARY_PATH"
         export CCV="$(proton-clang/bin/clang --version | head -n 1)"
         export LDV="$(proton-clang/bin/ld.lld --version | head -n 1 | perl -pe 's/\(git.*?\)//gs' | sed 's/(compatible with [^)]*)//' | sed 's/[[:space:]]*$//')"
         export KBUILD_COMPILER_STRING="${CCV} with ${LDV}"
