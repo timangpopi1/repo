@@ -32,14 +32,14 @@ jobs:
                export target_repo="kernel_xiaomi_whyred_sdm660"
                git clone --quiet --depth=1 ${my_project}/${target_repo} -b ${target_branch} kernel && cd kernel
                wget https://github.com/timangpopi1/repo/raw/master/build.sh
-               wget https://github.com/greenforce-project/kernel_xiaomi_whyred_sdm660/raw/46b529bd25a6b9ae3d1d82a44c6f8fb96948b3d9/oc.patch
-               git apply ./80mv_uv.patch && git apply ./oc.patch
+               #wget https://github.com/greenforce-project/kernel_xiaomi_whyred_sdm660/raw/46b529bd25a6b9ae3d1d82a44c6f8fb96948b3d9/oc.patch
+               #git apply ./80mv_uv.patch && git apply ./oc.patch
                ##---------------------------&&---------------------------##
                export codename="whyred-(oldcam)"
                export defconfig="whyred_defconfig"
                chmod +x build.sh && bash ./build.sh $defconfig gcc
                ##---------------------------&&---------------------------##
-               git apply ./campatch.patch
+               #git apply ./campatch.patch
                unset codename
                export codename="whyred-(newcam)"
                unset defconfig
