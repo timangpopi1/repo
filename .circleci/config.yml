@@ -34,6 +34,8 @@ jobs:
                wget https://github.com/timangpopi1/repo/raw/master/build.sh
                #wget https://github.com/greenforce-project/kernel_xiaomi_whyred_sdm660/raw/46b529bd25a6b9ae3d1d82a44c6f8fb96948b3d9/oc.patch
                #git apply ./80mv_uv.patch && git apply ./oc.patch
+               wget -O 40.patch https://github.com/PREDATOR-project/Predator-stable-X00T-WHYRED/raw/whyred-eas/40uv_mv.patch
+               git apply ./40.patch
                ##---------------------------&&---------------------------##
                export codename="whyred-(oldcam)"
                export defconfig="whyred_defconfig"
