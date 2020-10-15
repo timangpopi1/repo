@@ -39,5 +39,5 @@ mv $(pwd)/out/arch/arm64/boot/Image.gz-dtb $(pwd)/anykernel-3
 cd $(pwd)/anykernel-3 && zip -r9q "${KBUILD_BUILD_USER}"-"${KBUILD_BUILD_HOST}"-"${codename}"-"$(TZ=Asia/Jakarta date +'%d%m%y')".zip *
 cd .. && curl -F "disable_web_page_preview=true" -F "parse_mode=html" -F document=@$(echo $(pwd)/anykernel-3/*.zip) "https://api.telegram.org/bot${token}/sendDocument" -F caption="
 New build for #${codename} + $(cat $(pwd)/out/.config | grep Linux/arm64 | cut -d " " -f3) success at commit $(echo ${trigger_sha} | cut -c 1-8) (\"<a href='${my_project}/${target_repo}/commit/${trigger_sha}'>${commit_msg}</a>\") | <b>SHA1:</b> <code>$(sha1sum $(echo $(pwd)/anykernel-3/*.zip ) | awk '{ print $1 }')</code>." -F chat_id=${channel_id}
-curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${channel_id} -d text="<b>Compiler:</b> <code>$(cat out/include/generated/compile.h | grep LINUX_COMPILER | cut -d '"' -f2)</code>
+curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${channel_id} -d text="<b>Compiler:</b> <code>$(cat out/include/generated/compile.h | grep LINUX_COMPILER | cut -d '"' -f2)</code>"
 rm -rf out $(pwd)/anykernel-3/*.zip $(pwd)/anykernel-3/zImage $(pwd)/*.log
