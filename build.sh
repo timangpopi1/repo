@@ -16,8 +16,8 @@ if [[ "$2" == "clang" ]] ; then
         CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- STRIP=llvm-strip
     }
 elif [[ "$2" == "gcc" ]] ; then
-    git clone --quiet --depth=1 https://github.com/arter97/arm64-gcc gcc
-    git clone --quiet --depth=1 https://github.com/arter97/arm32-gcc gcc32
+    git clone --quiet --depth=1 https://github.com/chips-project/aarch64-elf gcc
+    git clone --quiet --depth=1 https://github.com/chips-project/arm-eabi gcc32
     function build_now() {
         export PATH="$(pwd)/gcc/bin:$(pwd)/gcc32/bin:$PATH"
         make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
