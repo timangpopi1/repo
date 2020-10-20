@@ -32,8 +32,8 @@ jobs:
                export target_repo="kernel_xiaomi_whyred_sdm660"
                git clone --quiet --depth=1 ${my_project}/${target_repo} -b ${target_branch} kernel && cd kernel
                wget https://github.com/timangpopi1/repo/raw/master/build.sh
-               wget -O 80.patch https://github.com/Pzqqt/android_kernel_xiaomi_whyred/raw/panda-qrebase/80mv_uv.patch
-               git apply ./80.patch
+               wget -O 40.patch https://github.com/PREDATOR-project/Predator-stable-X00T-WHYRED/raw/whyred-eas/40uv_mv.patch
+               git apply ./40.patch
                ##---------------------------&&---------------------------##
                export codename="whyred-(newcam)"
                export defconfig="whyred_defconfig"
