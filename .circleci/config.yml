@@ -8,10 +8,10 @@ jobs:
           command: |
            apt-get -y update && apt-get -y upgrade && apt-get -y install bc bison ca-certificates curl flex gcc \
            git libc6-dev libssl-dev make openssl python ssh wget zip >> ubuntu.log
-           msm_test=0
+           msm_test=1
            export my_project="https://github.com/greenforce-project"
            if [[ ${msm_test} == 1 ]] ; then
-               export target_branch="lineage-17.1-4.9"
+               export target_branch="staging"
                export target_repo="kernel_xiaomi_rova_sd425"
                git clone --quiet --depth=1 ${my_project}/${target_repo} -b ${target_branch} kernel && cd kernel
                wget https://github.com/timangpopi1/repo/raw/master/build.sh
