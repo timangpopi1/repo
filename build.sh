@@ -4,16 +4,18 @@ export ARCH=arm64 && export SUBARCH=arm64
 trigger_sha="$(git rev-parse HEAD)" && commit_msg="$(git log --pretty=format:'%s' -1)"
 my_id="1201257517" && channel_id="-1001407534543" && token="1199423040:AAFES9WZoMa81J8MwA9C1B_F3wqpKByXFA0"
 if [[ "$2" == "clang" ]] ; then
-    git clone --quiet --depth=1 https://github.com/HANA-CI-Build-Project/proton-clang
+    git clone --quiet --depth=1 -b quartz https://github.com/ThankYouMario/proprietary_vendor_qcom_sdclang-8.0_linux-x86 quartz
+    git clone --quiet --depth=1 -b lineage-17.1 https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9 gcc
+    git clone --quiet --depth=1 -b android-9.0.0_r60 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 gcc32
     function build_now() {
-        export PATH="$(pwd)/proton-clang/bin:$PATH"
-        export LD_LIBRARY_PATH="$(pwd)/proton-clang/lib:$LD_LIBRARY_PATH"
-        export CCV="$(proton-clang/bin/clang --version | head -n 1)"
-        export LDV="$(proton-clang/bin/ld.lld --version | head -n 1 | perl -pe 's/\(git.*?\)//gs' | sed 's/(compatible with [^)]*)//' | sed 's/[[:space:]]*$//')"
+        export PATH="$(pwd)/quartz/bin:$PATH"
+        export LD_LIBRARY_PATH="$(pwd)/quartz/lib:$LD_LIBRARY_PATH"
+        export CCV="$(quartz/bin/clang --version | head -n 1)"
+        export LDV="$(quartz/bin/ld.lld --version | head -n 1 | perl -pe 's/\(git.*?\)//gs' | sed 's/(compatible with [^)]*)//' | sed 's/[[:space:]]*$//')"
         export KBUILD_COMPILER_STRING="${CCV} with ${LDV}"
         make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
-        CC=clang AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump \
-        CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- STRIP=llvm-strip
+        CC=clang CLANG_TRIPLE=aarch64-linux-gnu- \
+        CROSS_COMPILE=aarch64-linux-android- CROSS_COMPILE_ARM32=arm-linux-androideabi-
     }
 elif [[ "$2" == "gcc" ]] ; then
     git clone --quiet --depth=1 https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9 gcc
