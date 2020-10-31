@@ -26,19 +26,19 @@ jobs:
                export defconfig="riva_defconfig"
                chmod +x build.sh && bash ./build.sh $defconfig gcc
            else
-               export target_branch="lineage-17.1"
+               export target_branch="main"
                export target_repo="kernel_xiaomi_whyred_sdm660"
                git clone --quiet --depth=1 ${my_project}/${target_repo} -b ${target_branch} kernel && cd kernel
                wget https://github.com/timangpopi1/repo/raw/master/build.sh
 
                export codename="whyred-(newcam)"
                export defconfig="whyred_defconfig"
-               chmod +x build.sh && bash ./build.sh $defconfig clang
+               chmod +x build.sh && bash ./build.sh $defconfig gcc
 
                unset codename
                export codename="whyred-(oldcam)"
                unset defconfig
                export defconfig="whyred_defconfig"
                sed -i 's/CONFIG_MACH_XIAOMI_NEW_CAMERA=y/# CONFIG_MACH_XIAOMI_NEW_CAMERA is not set/g' arch/arm64/configs/whyred_defconfig
-               chmod +x build.sh && bash ./build.sh $defconfig clang
+               chmod +x build.sh && bash ./build.sh $defconfig gcc
            fi
