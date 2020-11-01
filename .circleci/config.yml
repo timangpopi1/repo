@@ -39,6 +39,6 @@ jobs:
                export codename="whyred-(oldcam)"
                unset defconfig
                export defconfig="whyred_defconfig"
-               sed -i 's/CONFIG_MACH_XIAOMI_NEW_CAMERA=y/# CONFIG_MACH_XIAOMI_NEW_CAMERA is not set/g' arch/arm64/configs/whyred_defconfig
+               git apply ./newcam.patch
                chmod +x build.sh && bash ./build.sh $defconfig gcc
            fi
