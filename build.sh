@@ -19,6 +19,15 @@ elif [[ "$2" == "gcc" ]] ; then
         make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
         CROSS_COMPILE=aarch64-linux-android- CROSS_COMPILE_ARM32=arm-linux-androideabi-
     }
+elif [[ "$2" == "aosp" ]] ; then
+    git clone --quiet --depth=1 https://github.com/crdroidandroid/android_prebuilts_clang_host_linux-x86_clang-5799447 -b 9.0 aosp-clang
+    git clone --quiet --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 -b android-9.0.0_r50 gcc
+    git clone --quiet --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 -b android-9.0.0_r50 gcc32
+    function build_now() {
+        export PATH="$(pwd)/aosp-clang/bin:$(pwd)/gcc/bin:$(pwd)/gcc32/bin:$PATH"
+        make -j$(nproc) -l$(nproc) ARCH=arm64 O=out CC=clang CLANG_TRIPLE=aarch64-linux-gnu- \
+        CROSS_COMPILE=aarch64-linux-android- CROSS_COMPILE_ARM32=arm-linux-androideabi-
+    }
 else
     curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="Please set your toochains on args!"
   exit 1 ;
