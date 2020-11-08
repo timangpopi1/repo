@@ -4,12 +4,9 @@ export ARCH=arm64 && export SUBARCH=arm64
 trigger_sha="$(git rev-parse HEAD)" && commit_msg="$(git log --pretty=format:'%s' -1)"
 my_id="1201257517" && channel_id="-1001407534543" && token="1199423040:AAFES9WZoMa81J8MwA9C1B_F3wqpKByXFA0"
 if [[ "$2" == "clang" ]] ; then
-    git clone --quiet --depth=1 https://github.com/kdrag0n/proton-clang
+    git clone --quiet --depth=1 https://github.com/NusantaraDevs/clang 12
     function build_now() {
-        export PATH="$(pwd)/proton-clang/bin:$PATH"
-        export CCV="$(proton-clang/bin/clang --version | head -n 1)"
-        export LDV="$(proton-clang/bin/ld.lld --version | head -n 1 | perl -pe 's/\(git.*?\)//gs' | sed 's/(compatible with [^)]*)//' | sed 's/[[:space:]]*$//')"
-        export KBUILD_COMPILER_STRING="${CCV} with ${LDV}"
+        export PATH="$(pwd)/12/bin:$PATH"
         make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
         CC=clang AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump \
         CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- STRIP=llvm-strip
