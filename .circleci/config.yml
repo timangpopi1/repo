@@ -2,12 +2,10 @@ version: 2
 jobs:
   build:
    docker:
-      - image: ubuntu:18.04
+      - image: fadlyas/kernel_dockerfile:latest
    steps:
       - run:
           command: |
-           apt-get -y update && apt-get -y upgrade && apt-get -y install bc bison ca-certificates curl flex gcc \
-           git libc6-dev libssl-dev make openssl python ssh wget zip >> ubuntu.log
            msm_test=0
            export my_project="https://github.com/greenforce-project"
            if [[ ${msm_test} == 1 ]] ; then
