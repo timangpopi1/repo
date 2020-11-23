@@ -8,7 +8,7 @@ jobs:
           command: |
            apt-get -y update && apt-get -y upgrade && apt-get -y install bc bison ca-certificates curl flex gcc \
            git libc6-dev libssl-dev make openssl python ssh wget zip >> ubuntu.log
-           msm_test=1
+           msm_test=0
            export my_project="https://github.com/greenforce-project"
            if [[ ${msm_test} == 1 ]] ; then
                export target_branch="main"
@@ -33,12 +33,12 @@ jobs:
 
                export codename="whyred-(newcam)"
                export defconfig="whyred_defconfig"
-               chmod +x build.sh && bash ./build.sh $defconfig gcc
+               chmod +x build.sh && bash ./build.sh $defconfig clang
 
                unset codename
                export codename="whyred-(oldcam)"
                unset defconfig
                export defconfig="whyred_defconfig"
                sed -i 's/CONFIG_MACH_XIAOMI_NEW_CAMERA=y/# CONFIG_MACH_XIAOMI_NEW_CAMERA is not set/g' arch/arm64/configs/whyred_defconfig
-               chmod +x build.sh && bash ./build.sh $defconfig gcc
+               chmod +x build.sh && bash ./build.sh $defconfig clang
            fi
