@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 git clone --quiet --depth=1 https://github.com/fadlyas07/anykernel-3
 export ARCH=arm64 && export SUBARCH=arm64
-trigger_sha="$(git rev-parse HEAD)" && commit_msg="$(git log --pretty=format:'%s' -1)"
 my_id="1201257517" && channel_id="-1001407534543" && token="1199423040:AAFES9WZoMa81J8MwA9C1B_F3wqpKByXFA0"
 if [[ "$2" == "clang" ]] ; then
     git clone --quiet --depth=1 https://github.com/kdrag0n/proton-clang
@@ -41,5 +40,5 @@ curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDoc
 mv $(pwd)/out/arch/arm64/boot/Image.gz-dtb $(pwd)/anykernel-3
 cd $(pwd)/anykernel-3 && zip -r9q "${KBUILD_BUILD_USER}"-"${KBUILD_BUILD_HOST}"-"${codename}"-"$(TZ=Asia/Jakarta date +'%d%m%y')".zip *
 cd .. && curl -F "disable_web_page_preview=true" -F "parse_mode=html" -F document=@$(echo $(pwd)/anykernel-3/*.zip) "https://api.telegram.org/bot${token}/sendDocument" -F caption="
-The new test-build for #${codename} coming with Linux $(cat $(pwd)/out/.config | grep Linux/arm64 | cut -d " " -f3) success at commit $(echo ${trigger_sha} | cut -c 1-8) (\"<a href='${my_project}/${target_repo}/commit/${trigger_sha}'>${commit_msg}</a>\") | <b>SHA1:</b> <code>$(sha1sum $(echo $(pwd)/anykernel-3/*.zip ) | awk '{ print $1 }')</code>." -F chat_id=${channel_id}
+New #${codename} build is available! ($(cat $(pwd)/out/.config | grep Linux/arm64 | cut -d " " -f3), $(git rev-parse --abbrev-ref HEAD) at commit $(git log --pretty=format:"%h (\"%s\")" -1) | <b>SHA1:</b> $(sha1sum $(echo $(pwd)/anykernel-3/*.zip) | awk '{ print $1 }')." -F chat_id=${channel_id}
 rm -rf out $(pwd)/anykernel-3/*.zip $(pwd)/anykernel-3/zImage $(pwd)/*.log
