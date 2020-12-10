@@ -7,6 +7,7 @@ jobs:
       - run:
           command: |
            msm_test=1
+           apt-get -y install flex
            export my_project="https://github.com/greenforce-project"
            if [[ ${msm_test} == 1 ]] ; then
                export target_branch="q"
