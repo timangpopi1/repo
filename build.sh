@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 git clone --quiet --depth=1 https://github.com/fadlyas07/anykernel-3
 export ARCH=arm64 && export SUBARCH=arm64
 my_id="1201257517" && channel_id="-1001407534543" && token="1199423040:AAFES9WZoMa81J8MwA9C1B_F3wqpKByXFA0"
