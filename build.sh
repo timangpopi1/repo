@@ -28,6 +28,13 @@ elif [[ "$2" == "aosp" ]] ; then
         make -j$(nproc) -l$(nproc) ARCH=arm64 O=out CC=clang CLANG_TRIPLE=aarch64-linux-gnu- \
         CROSS_COMPILE=aarch64-linux-android- CROSS_COMPILE_ARM32=arm-linux-androideabi-
     }
+elif [[ "$2" == "gcc-lto" ]] ; then
+    git clone --quiet --depth=1 https://github.com/arter97/arm32-gcc gcc32
+    git clone --quiet --depth=1 https://github.com/arter97/arm64-gcc gcc
+    function build_now() {
+        export PATH="$(pwd)/gcc/bin:$(pwd)/gcc32/bin:$PATH"
+        make -j$(nproc) -l$(nproc) ARCH=arm64 O=out CROSS_COMPILE=aarch64-elf- CROSS_COMPILE_ARM32=arm-eabi-
+    }
 else
     curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="Please set your toochains on args!"
   exit 1 ;
