@@ -15,7 +15,7 @@ if [[ "$2" == "clang" ]] ; then
     }
 elif [[ "$2" == "gcc" ]] ; then
     git clone --quiet --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 -b android-9.0.0_r55 gcc
-    git clone --queit --depth=1 https://github.com/crdroidmod/android_prebuilts_clang_host_linux-x86_clang-6032204 -b 9.0 aosp-clang
+    git clone --queit --depth=1 https://github.com/crdroidmod/android_prebuilts_clang_host_linux-x86_clang-6032204 aosp-clang
     function build_now() {
         export PATH="$(pwd)/aosp-clang/bin:$(pwd)/gcc/bin:$PATH"
         export LD_LIBRARY_PATH="$(pwd)/aosp-clang/lib:$LD_LIBRARY_PATH"
