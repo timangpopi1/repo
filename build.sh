@@ -19,7 +19,8 @@ elif [[ "$2" == "gcc" ]] ; then
     function build_now() {
         export PATH="$(pwd)/aosp-clang/bin:$(pwd)/gcc/bin:$PATH"
         export LD_LIBRARY_PATH="$(pwd)/aosp-clang/lib:$LD_LIBRARY_PATH"
-        make -j$(nproc) -l$(nproc) ARCH=arm64 O=out CROSS_COMPILE=aarch64-linux-android-
+        make -j$(nproc) -l$(nproc) ARCH=arm64 O=out CC=clang CLANG_TRIPLE=aarch64-linux-gnu- \
+        CROSS_COMPILE=aarch64-linux-android-
     }
 elif [[ "$2" == "aosp" ]] ; then
     git clone --quiet --depth=1 https://github.com/crdroidandroid/android_prebuilts_clang_host_linux-x86_clang-5799447 -b 9.0 aosp-clang
