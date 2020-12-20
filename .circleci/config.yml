@@ -6,6 +6,8 @@ jobs:
    steps:
       - run:
           command: |
+           # Install flex package for old aosp-dtc driver.
+           apt-get -y install flex &> flex.txt
            msm_test=1
            export my_project="https://github.com/greenforce-project"
            if [[ ${msm_test} == 1 ]] ; then
