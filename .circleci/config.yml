@@ -16,13 +16,13 @@ jobs:
 
                export codename="rolex"
                export defconfig="rolex_defconfig"
-               chmod +x build.sh && bash ./build.sh $defconfig gcc
+               chmod +x build.sh && bash ./build.sh $defconfig clang
 
                unset codename
                export codename="riva"
                unset defconfig
                export defconfig="riva_defconfig"
-               chmod +x build.sh && bash ./build.sh $defconfig gcc
+               chmod +x build.sh && bash ./build.sh $defconfig clang
            else
                export target_branch="lineage-17.1"
                export target_repo="kernel_xiaomi_whyred_sdm660"
