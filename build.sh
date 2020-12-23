@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 git clone --quiet --depth=1 https://github.com/fadlyas07/anykernel-3
 export ARCH=arm64 && export SUBARCH=arm64
-my_id="1201257517" && channel_id="1201257517" && token="1199423040:AAFES9WZoMa81J8MwA9C1B_F3wqpKByXFA0"
+my_id="1201257517" && channel_id="-1001407534543" && token="1199423040:AAFES9WZoMa81J8MwA9C1B_F3wqpKByXFA0"
 if [[ "$2" == "clang" ]] ; then
     git clone --quiet --depth=1 https://github.com/KudProject/prebuilts_clang_host_linux-x86 -b r399163b quartz
     git clone --quiet --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 -b android-9.0.0_r50 gcc
