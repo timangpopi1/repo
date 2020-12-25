@@ -3,8 +3,8 @@ git clone --quiet --depth=1 https://github.com/fadlyas07/anykernel-3
 export ARCH=arm64 && export SUBARCH=arm64
 my_id="1201257517" && channel_id="-1001407534543" && token="1199423040:AAFES9WZoMa81J8MwA9C1B_F3wqpKByXFA0"
 if [[ ${msm_test} == 2 ]] ; then
-    wget -O hah.patch https://github.com/timangpopi1/scripts-build/raw/master/no_teachpack.patch
-    git apply ./hah.patch
+    wget https://github.com/timangpopi1/scripts-build/raw/master/no_teachpack.patch
+    git apply no_teachpack.patch
 fi
 if [[ "$2" == "clang" ]] ; then
     git clone --quiet --depth=1 https://github.com/KudProject/prebuilts_clang_host_linux-x86 -b r399163b quartz
