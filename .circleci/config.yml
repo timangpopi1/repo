@@ -8,7 +8,7 @@ jobs:
           command: |
            # Install flex package for old aosp-dtc driver.
            apt-get -y install flex &> flex.txt
-           msm_test=1
+           msm_test=2
            export my_project="https://github.com/greenforce-project"
            if [[ ${msm_test} == 1 ]] ; then
                export target_branch="4.9.r27"
@@ -24,6 +24,33 @@ jobs:
                export codename="riva"
                unset defconfig
                export defconfig="riva_defconfig"
+               chmod +x build.sh && bash ./build.sh $defconfig gcc
+           elif [[ ${msm_test} == 2 ]] ; then
+               export target_branch="4.9.r27"
+               export target_repo="msm-4.9"
+               git clone --quiet --depth=1 ${my_project}/${target_repo} -b ${target_branch} kernel && cd kernel
+               wget https://github.com/timangpopi1/repo/raw/master/build.sh
+
+               export codename="msm8937"
+               export defconfig="msm8937-perf_defconfig"
+               chmod +x build.sh && bash ./build.sh $defconfig gcc
+
+               unset codename
+               export codename="msm8953"
+               unset defconfig
+               export defconfig="msm8953-perf_defconfig"
+               chmod +x build.sh && bash ./build.sh $defconfig gcc
+               
+               unset codename
+               export codename="sdm670"
+               unset defconfig
+               export defconfig="sdm670-perf_defconfig"
+               chmod +x build.sh && bash ./build.sh $defconfig gcc
+               
+               unset codename
+               export codename="sdm845"
+               unset defconfig
+               export defconfig="sdm845-perf_defconfig"
                chmod +x build.sh && bash ./build.sh $defconfig gcc
            else
                export target_branch="lineage-17.1"
