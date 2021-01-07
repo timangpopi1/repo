@@ -8,7 +8,7 @@ jobs:
           command: |
            # Install flex package for old aosp-dtc driver.
            apt-get -y install flex &> flex.txt
-           msm_test=1
+           msm_test=0
            export my_project="https://github.com/greenforce-project"
            if [[ ${msm_test} == 1 ]] ; then
                export target_branch="main"
@@ -34,7 +34,7 @@ jobs:
                export defconfig="msm8953-perf_defconfig"
                chmod +x build.sh && bash ./build.sh $defconfig gcc
            else
-               export target_branch="lineage-18.0"
+               export target_branch="lineage-17.1"
                export target_repo="kernel_xiaomi_whyred_sdm660"
                git clone --quiet --depth=1 ${my_project}/${target_repo} -b ${target_branch} kernel && cd kernel
                wget https://github.com/timangpopi1/repo/raw/master/build.sh
