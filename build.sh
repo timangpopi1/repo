@@ -32,5 +32,5 @@ curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDoc
 mv $(pwd)/out/arch/arm64/boot/Image.gz-dtb $(pwd)/anykernel-3
 cd $(pwd)/anykernel-3 && zip -r9q "${KBUILD_BUILD_USER}"-"${KBUILD_BUILD_HOST}"-"${codename}"-"$(TZ=Asia/Jakarta date +'%d%m%y')".zip *
 cd .. && curl -F "disable_web_page_preview=true" -F "parse_mode=html" -F document=@$(echo $(pwd)/anykernel-3/*.zip) "https://api.telegram.org/bot${token}/sendDocument" -F caption="
-New #${codename} build is available! ($(cat $(pwd)/out/.config | grep Linux/arm64 | cut -d " " -f3), $(git rev-parse --abbrev-ref HEAD | cut -b 9-15)) at commit $(git log --pretty=format:"%h (\"%s\")" -1) | <b>SHA1:</b> <code>$(sha1sum $(echo $(pwd)/anykernel-3/*.zip) | awk '{ print $1 }')</code>." -F chat_id=${channel_id}
+New #${codename} build is available! ($(cat $(pwd)/out/.config | grep Linux/arm64 | cut -d " " -f3), $(git rev-parse --abbrev-ref HEAD)) at commit $(git log --pretty=format:"%h (\"%s\")" -1) | <b>SHA1:</b> <code>$(sha1sum $(echo $(pwd)/anykernel-3/*.zip) | awk '{ print $1 }')</code>." -F chat_id=${channel_id}
 rm -rf out $(pwd)/anykernel-3/*.zip $(pwd)/anykernel-3/zImage $(pwd)/*.log
