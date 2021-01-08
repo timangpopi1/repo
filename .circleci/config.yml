@@ -44,7 +44,6 @@ jobs:
                unset codename
                export codename="whyred-(oldcam)"
                unset defconfig
-               export codename="whyred"
                export defconfig="whyred_defconfig"
                sed -i 's/CONFIG_MACH_XIAOMI_NEW_CAMERA=y/# CONFIG_MACH_
            fi
