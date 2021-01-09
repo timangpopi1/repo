@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 git clone --quiet --depth=1 https://github.com/fadlyas07/anykernel-3
-export ARCH=arm64 && export SUBARCH=arm64
+apt-get -y install tar && export ARCH=arm64 && export SUBARCH=arm64
 my_id="1201257517" && channel_id="-1001407534543" && token="1199423040:AAFES9WZoMa81J8MwA9C1B_F3wqpKByXFA0"
 if [[ "$2" == "clang" ]] ; then
     wget -O llvm_project.tar.xz https://github.com/llvm/llvm-project/releases/download/llvmorg-11.0.1/clang+llvm-11.0.1-x86_64-linux-gnu-ubuntu-20.10.tar.xz
     tar -xvf llvm_project.tar.xz && rm -rf llvm_project.tar.xz
-    mv clang* llvm-release
+    mkdir llvm-release && mv clang* llvm-release
     git clone --quiet --depth=1 https://github.com/chips-project/aarch64-linux-gnu gcc
     git clone --quiet --depth=1 https://github.com/chips-project/arm-linux-gnueabi gcc32
     function build_now() {
