@@ -3,7 +3,7 @@ git clone --quiet --depth=1 https://github.com/fadlyas07/anykernel-3
 export ARCH=arm64 && export SUBARCH=arm64
 my_id="1201257517" && channel_id="-1001407534543" && token="1199423040:AAFES9WZoMa81J8MwA9C1B_F3wqpKByXFA0"
 if [[ "$2" == "clang" ]] ; then
-    git clone --quiet --depth=1 https://github.com/Panchajanya1999/azure-clang
+    git clone --quiet --depth=1 https://github.com/kdrag0n/proton-clang azure-clang
     function build_now() {
         export PATH="$(pwd)/azure-clang/bin:$PATH"
         make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
