@@ -8,7 +8,7 @@ if [[ "$2" == "clang" ]] ; then
         export PATH="$(pwd)/proton-clang/bin:$PATH"
         make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
         CC=clang AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump \
-        CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- STRIP=llvm-strip
+        CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_COMPAT=arm-linux-gnueabi- STRIP=llvm-strip
     }
 elif [[ "$2" == "gcc" ]] ; then
     git clone --quiet --depth=1 https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9 -b lineage-17.1 gcc
