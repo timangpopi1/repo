@@ -11,7 +11,7 @@ if [[ "$2" == "clang" ]] ; then
         CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- STRIP=llvm-strip
     }
 elif [[ "$2" == "gcc" ]] ; then
-    wget https://github.com/timangpopi1/arm64-gcc-linaro-4.9-2016 -b master gcc
+    git clone --quiet --depth=1 https://github.com/timangpopi1/arm64-gcc-linaro-4.9-2016 -b master gcc
     function build_now() {
         export PATH="$(pwd)/gcc/bin:$PATH"
         make -j$(nproc) -l$(nproc) ARCH=arm64 O=out CROSS_COMPILE=aarch64-elf-
