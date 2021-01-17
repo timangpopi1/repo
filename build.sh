@@ -11,12 +11,10 @@ if [[ "$2" == "clang" ]] ; then
         CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- STRIP=llvm-strip
     }
 elif [[ "$2" == "gcc" ]] ; then
-    wget https://releases.linaro.org/components/toolchain/binaries/4.9-2016.02/aarch64-elf/gcc-linaro-4.9-2016.02-x86_64_aarch64-elf.tar.xz
-    tar -xvf "$(echo *.tar.*)"
-    mv gcc-linaro-4.9-2016.02-x86_64_aarch64-elf gcc-elf && rm -rf *.tar.xz
+    wget https://github.com/timangpopi1/arm64-gcc-linaro-4.9-2016 -b master gcc
     function build_now() {
-        export PATH="$(pwd)/gcc-elf/bin:$PATH"
-        make -j$(nproc) -l$(nproc) ARCH=arm64 O=out CROSS_COMPILE=aarch64-linux-android- CROSS_COMPILE_ARM32=arm-linux-androideabi-
+        export PATH="$(pwd)/gcc/bin:$PATH"
+        make -j$(nproc) -l$(nproc) ARCH=arm64 O=out CROSS_COMPILE=aarch64-elf-
     }
 else
     curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="Please set your toochains on args!"
