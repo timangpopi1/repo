@@ -12,6 +12,7 @@ if [[ "$2" == "clang" ]] ; then
     }
 elif [[ "$2" == "gcc" ]] ; then
     wget https://releases.linaro.org/components/toolchain/binaries/4.9-2016.02/aarch64-elf/gcc-linaro-4.9-2016.02-x86_64_aarch64-elf.tar.xz
+    tar -xvf "$(echo *.tar.*)"
     mv gcc-linaro-4.9-2016.02-x86_64_aarch64-elf gcc-elf && rm -rf *.tar.xz
     function build_now() {
         export PATH="$(pwd)/gcc-elf/bin:$PATH"
