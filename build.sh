@@ -11,10 +11,17 @@ if [[ "$2" == "clang" ]] ; then
         CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- STRIP=llvm-strip
     }
 elif [[ "$2" == "gcc" ]] ; then
-    git clone --quiet --depth=1 https://github.com/timangpopi1/arm64-gcc-linaro-4.9-2016 -b master gcc-elf
+    git clone --quiet --depth=1 https://github.com/timangpopi1/arm64-gcc-linaro-4.9-2016 -b master gcc
     function build_now() {
-        export PATH="$(pwd)/gcc-elf/bin:$PATH"
+        export PATH="$(pwd)/gcc/bin:$PATH"
         make -j$(nproc) -l$(nproc) ARCH=arm64 O=out CROSS_COMPILE=aarch64-elf-
+    }
+elif [[ "$3" == "gcc-elf" ]] ; then
+    git clone --quiet --depth=1 https://github.com/arter97/arm64-gcc
+    git clone --quiet --depth=1 https://github.com/arter97/arm32-gcc
+    function build_now() {
+        export PATH="$(pwd)/arm64-gcc/bin:$(pwd)/arm32-gcc/bin:$PATH"
+        make -j$(nproc) -l$(nproc) ARCH=arm64 O=out CROSS_COMPILE=aarch64-elf- CROSS_COMPILE_ARM32=arm-eabi-
     }
 else
     curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="Please set your toochains on args!"
