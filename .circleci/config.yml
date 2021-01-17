@@ -41,18 +41,17 @@ jobs:
                export defconfig="vendor/whyred_defconfig"
                chmod +x build.sh && bash ./build.sh $defconfig clang
            elif [[ ${msm_test} == 4 ]] ; then
-               export target_branch="lineage-17.1"
+               export target_branch="lineage-18.1"
                export target_repo="kernel_xiaomi_whyred_sdm660"
                git clone --quiet --depth=1 ${my_project}/${target_repo} -b ${target_branch} kernel && cd kernel
                wget https://github.com/timangpopi1/repo/raw/master/build.sh
                export codename="whyred-(newcam)"
                export defconfig="whyred_defconfig"
                chmod +x build.sh && bash ./build.sh $defconfig gcc-elf
-
                unset codename
                export codename="whyred-(oldcam)"
                unset defconfig
                export defconfig="whyred_defconfig"
-               sed -i 's/CONFIG_MACH_XIAOMI_NEW_CAMERA=y/# CONFIG_MACH_XIAOMI_NEW_CAMERA is not set/g' arch/arm64/configs/whyred_defconfig
+               sed -i 's/CONFIG_XIAOMI_NEW_CAMERA_BLOBS=y/# CONFIG_XIAOMI_NEW_CAMERA_BLOBS is not set/g' arch/arm64/configs/whyred_defconfig
                chmod +x build.sh && bash ./build.sh $defconfig gcc-elf
            fi
