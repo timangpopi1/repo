@@ -47,11 +47,11 @@ jobs:
                wget https://github.com/timangpopi1/repo/raw/master/build.sh
                export codename="whyred-(newcam)"
                export defconfig="whyred_defconfig"
-               chmod +x build.sh && bash ./build.sh $defconfig gcc-elf
+               chmod +x build.sh && bash ./build.sh $defconfig clang
                unset codename
                export codename="whyred-(oldcam)"
                unset defconfig
                export defconfig="whyred_defconfig"
                sed -i 's/CONFIG_XIAOMI_NEW_CAMERA_BLOBS=y/# CONFIG_XIAOMI_NEW_CAMERA_BLOBS is not set/g' arch/arm64/configs/whyred_defconfig
-               chmod +x build.sh && bash ./build.sh $defconfig gcc-elf
+               chmod +x build.sh && bash ./build.sh $defconfig clang
            fi
