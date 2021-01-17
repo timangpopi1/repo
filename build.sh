@@ -16,7 +16,7 @@ elif [[ "$2" == "gcc" ]] ; then
         export PATH="$(pwd)/gcc/bin:$PATH"
         make -j$(nproc) -l$(nproc) ARCH=arm64 O=out CROSS_COMPILE=aarch64-elf-
     }
-elif [[ "$3" == "gcc-elf" ]] ; then
+elif [[ "$2" == "gcc-elf" ]] ; then
     git clone --quiet --depth=1 https://github.com/arter97/arm64-gcc
     git clone --quiet --depth=1 https://github.com/arter97/arm32-gcc
     function build_now() {
