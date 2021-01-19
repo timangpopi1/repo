@@ -7,7 +7,7 @@ jobs:
       - run:
           command: |
            apt-get -y install flex tar &> nou.txt
-           msm_test=1
+           msm_test=3
            export my_project="https://github.com/greenforce-project"
            if [[ ${msm_test} == 1 ]] ; then
                export target_branch="android-4.9-q"
@@ -52,13 +52,6 @@ jobs:
                export codename="whyred-(oldcam)"
                unset defconfig
                export defconfig="whyred_defconfig"
-               case "$target_branch" in
-               "lineage-18.1")
-                       sed -i 's/CONFIG_XIAOMI_NEW_CAMERA_BLOBS=y/# CONFIG_XIAOMI_NEW_CAMERA_BLOBS is not set/g' arch/arm64/configs/whyred_defconfig
-                       ;;
-               "lineage-17.1")
-                       sed -i 's/CONFIG_MACH_XIAOMI_NEW_CAMERA=y/# CONFIG_MACH_XIAOMI_NEW_CAMERA is not set/g' arch/arm64/configs/whyred_defconfig
-                       ;;
-               esac
+               sed -i 's/CONFIG_XIAOMI_NEW_CAMERA_BLOBS=y/# CONFIG_XIAOMI_NEW_CAMERA_BLOBS is not set/g' arch/arm64/configs/whyred_defconfig
                chmod +x build.sh && bash ./build.sh $defconfig gcc-elf
            fi
