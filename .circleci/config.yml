@@ -22,11 +22,9 @@ jobs:
                export target_repo="msm-4.9"
                git clone --quiet --depth=1 ${my_project}/${target_repo} -b ${target_branch} kernel && cd kernel
                wget https://github.com/timangpopi1/repo/raw/master/build.sh
-
                export codename="msm8937"
                export defconfig="msm8937-perf_defconfig"
                chmod +x build.sh && bash ./build.sh $defconfig gcc
-
                unset codename
                export codename="msm8953"
                unset defconfig
@@ -47,11 +45,11 @@ jobs:
                wget https://github.com/timangpopi1/repo/raw/master/build.sh
                export codename="whyred-(newcam)"
                export defconfig="whyred_defconfig"
-               chmod +x build.sh && bash ./build.sh $defconfig clang
+               chmod +x build.sh && bash ./build.sh $defconfig gcc
                unset codename
                export codename="whyred-(oldcam)"
                unset defconfig
                export defconfig="whyred_defconfig"
                sed -i 's/CONFIG_XIAOMI_NEW_CAMERA_BLOBS=y/# CONFIG_XIAOMI_NEW_CAMERA_BLOBS is not set/g' arch/arm64/configs/whyred_defconfig
-               chmod +x build.sh && bash ./build.sh $defconfig clang
+               chmod +x build.sh && bash ./build.sh $defconfig gcc
            fi
