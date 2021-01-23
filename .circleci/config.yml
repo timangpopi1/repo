@@ -37,7 +37,7 @@ jobs:
                wget https://github.com/timangpopi1/repo/raw/master/build.sh
                export codename="X00P"
                export defconfig="X00P_defconfig"
-               chmod +x build.sh && bash ./build.sh $defconfig gcc-elf
+               chmod +x build.sh && bash ./build.sh $defconfig gcc
            elif [[ ${msm_test} == 4 ]] ; then
                export target_branch="lineage-18.1"
                export target_repo="kernel_xiaomi_whyred_sdm660"
