@@ -31,7 +31,7 @@ jobs:
                export defconfig="msm8953-perf_defconfig"
                chmod +x build.sh && bash ./build.sh $defconfig gcc
            elif [[ ${msm_test} == 3 ]] ; then
-               export target_branch="lineage-18.0"
+               export target_branch="lineage-18.0-4.9"
                export target_repo="https://github.com/asusdevices/android_kernel_asus_msm8937-4.9"
                git clone --quiet --depth=1 ${target_repo} -b ${target_branch} kernel && cd kernel
                wget https://github.com/timangpopi1/repo/raw/master/build.sh
