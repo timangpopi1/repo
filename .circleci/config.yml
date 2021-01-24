@@ -7,7 +7,7 @@ jobs:
       - run:
           command: |
            apt-get -y install flex tar &> nou.txt
-           msm_test=1
+           msm_test=4
            export my_project="https://github.com/greenforce-project"
            if [[ ${msm_test} == 1 ]] ; then
                export target_branch="android-4.9-q"
@@ -39,7 +39,7 @@ jobs:
                export defconfig="X00P_defconfig"
                chmod +x build.sh && bash ./build.sh $defconfig gcc
            elif [[ ${msm_test} == 4 ]] ; then
-               export target_branch="lineage-18.1"
+               export target_branch="lineage-17.1"
                export target_repo="kernel_xiaomi_whyred_sdm660"
                git clone --quiet --depth=1 ${my_project}/${target_repo} -b ${target_branch} kernel && cd kernel
                wget https://github.com/timangpopi1/repo/raw/master/build.sh
