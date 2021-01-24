@@ -13,7 +13,7 @@ if [[ "$2" == "clang" ]] ; then
 elif [[ "$2" == "gcc" ]] ; then
     git clone --quiet --depth=1 https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9 -b lineage-17.1 gcc
     function build_now() {
-        export PATH="$(pwd)/gcc/bin:$(pwd)/gcc32/bin:$PATH"
+        export PATH="$(pwd)/gcc/bin:$PATH"
         make -j$(nproc) -l$(nproc) ARCH=arm64 O=out CROSS_COMPILE=aarch64-linux-android-
     }
 elif [[ "$2" == "gcc-elf" ]] ; then
