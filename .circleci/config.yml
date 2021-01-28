@@ -16,6 +16,7 @@ jobs:
                wget https://github.com/timangpopi1/repo/raw/master/build.sh
                export codename="rova"
                export defconfig="rova_defconfig"
+               git revert -n 01abadd58bb9b4b77ca434f4ab10846b7a67967e
                chmod +x build.sh && bash ./build.sh $defconfig gcc
            elif [[ ${msm_test} == 2 ]] ; then
                export target_branch="4.9.r27"
