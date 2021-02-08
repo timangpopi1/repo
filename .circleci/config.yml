@@ -10,7 +10,7 @@ jobs:
            msm_test=1
            export my_project="https://github.com/greenforce-project"
            if [[ ${msm_test} == 1 ]] ; then
-               export target_branch="main"
+               export target_branch="android-4.9-q"
                export target_repo="kernel_xiaomi_rova_sd425_4.9"
                git clone --quiet --depth=1 ${my_project}/${target_repo} -b ${target_branch} kernel && cd kernel
                wget https://github.com/timangpopi1/repo/raw/master/build.sh
