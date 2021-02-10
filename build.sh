@@ -7,8 +7,7 @@ if [[ "$2" == "clang" ]] ; then
     function build_now() {
         export PATH="$(pwd)/proton-clang/bin:$PATH"
         make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
-        CC=clang AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump \
-        CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- STRIP=llvm-strip
+        CC=clang CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi-
     }
 elif [[ "$2" == "gcc" ]] ; then
     git clone --quiet -j64 --depth=1 https://github.com/timangpopi1/arm64-gcc-linaro-4.9-2016 -b old gcc
