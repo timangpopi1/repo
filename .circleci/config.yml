@@ -7,7 +7,7 @@ jobs:
       - run:
           command: |
            apt-get -y install flex tar &> nou.txt
-           msm_test=3
+           msm_test=1
            export my_project="https://github.com/greenforce-project"
            if [[ ${msm_test} == 1 ]] ; then
                export target_branch="android-4.9-q"
@@ -16,7 +16,7 @@ jobs:
                wget https://github.com/timangpopi1/repo/raw/master/build.sh
                export codename="rova"
                export defconfig="rova_defconfig"
-               chmod +x build.sh && bash ./build.sh $defconfig gcc
+               chmod +x build.sh && bash ./build.sh $defconfig gcc-elf
            elif [[ ${msm_test} == 2 ]] ; then
                export target_branch="4.9.r27"
                export target_repo="msm-4.9"
