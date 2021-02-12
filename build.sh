@@ -27,7 +27,7 @@ else
   exit 1 ;
 fi
 export KBUILD_BUILD_USER=fadlyas07 && export KBUILD_BUILD_HOST=greenforce-project && export KBUILD_BUILD_VERSION=$CIRCLE_BUILD_NUM
-make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1} && build_now &> build.log
+make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1} && build_now 2>&1| tee build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz-dtb ]] ; then
     curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${my_id}
     curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="Build failed! at branch $(git rev-parse --abbrev-ref HEAD)"
