@@ -10,7 +10,7 @@ if [[ "$2" == "clang" ]] ; then
         CC=clang CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi-
     }
 elif [[ "$2" == "gcc" ]] ; then
-    git clone --quiet -j64 --depth=1 https://github.com/timangpopi1/arm64-gcc-linaro-4.9-2016 -b old gcc
+    git clone --quiet --depth=1 https://github.com/timangpopi1/arm64-gcc-linaro-4.9-2016 -b old gcc
     function build_now() {
         export PATH="$(pwd)/gcc/bin:$PATH"
         make -j$(nproc) -l$(nproc) ARCH=arm64 O=out CROSS_COMPILE=aarch64-linux-android-
@@ -26,7 +26,7 @@ else
     curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="Please set your toochains on args!"
   exit 1 ;
 fi
-export KBUILD_BUILD_USER=fadlyas07 && export KBUILD_BUILD_HOST=greenforce-project && export KBUILD_BUILD_VERSION=$CIRCLE_BUILD_NUM
+export KBUILD_BUILD_USER=fadlyas07 && export KBUILD_BUILD_HOST=greenforce-project
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1} && build_now 2>&1| tee build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz-dtb ]] ; then
     curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${my_id}
