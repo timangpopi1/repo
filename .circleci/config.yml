@@ -6,7 +6,7 @@ jobs:
    steps:
       - run:
           command: |
-           msm_test=1
+           msm_test=1 #okr
            export my_project="https://github.com/greenforce-project"
            if [[ ${msm_test} == 1 ]] ; then
                export target_branch="android-4.9-q"
