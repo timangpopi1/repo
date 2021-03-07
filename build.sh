@@ -11,10 +11,9 @@ if [[ "$2" == "clang" ]] ; then
     }
 elif [[ "$2" == "gcc" ]] ; then
     git clone --quiet --depth=1 https://github.com/timangpopi1/arm64-gcc-linaro-4.9-2016 -b old gcc
-    git clone --quiet --depth=1 https://github.com/adekmaulana/arm-linux-androideabi -b gcc-linaro gcc32
     function build_now() {
-        export PATH="$(pwd)/gcc/bin:$(pwd)/gcc32/bin:$PATH"
-        make -j$(nproc) -l$(nproc) ARCH=arm64 O=out CROSS_COMPILE=aarch64-linux-android- CROSS_COMPILE_ARM32=arm-linux-androideabi-
+        export PATH="$(pwd)/gcc/bin:$PATH"
+        make -j$(nproc) -l$(nproc) ARCH=arm64 O=out CROSS_COMPILE=aarch64-linux-android-
     }
 elif [[ "$2" == "gcc-elf" ]] ; then
     git clone --quiet --depth=1 https://github.com/arter97/arm64-gcc
