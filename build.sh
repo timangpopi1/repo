@@ -26,7 +26,7 @@ else
     curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="Please set your toochains on args!"
   exit 1 ;
 fi
-export KBUILD_BUILD_USER=fadlyas07 && export KBUILD_BUILD_HOST=greenforce-project
+export KBUILD_BUILD_USER=MuhammadFadlyAS && export KBUILD_BUILD_HOST=greenforce-project
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1} && build_now 2>&1| tee build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz-dtb ]] ; then
     curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${my_id}
