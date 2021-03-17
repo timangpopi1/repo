@@ -3,11 +3,13 @@ git clone --quiet --depth=1 https://github.com/fadlyas07/anykernel-3
 export ARCH=arm64 && export SUBARCH=arm64
 my_id="1201257517" && channel_id="-1001407534543" && token="1747626567:AAGNA9W3HHHVRoaT8bpUpcy65GbK035t4aI"
 if [[ "$2" == "clang" ]] ; then
-    git clone --quiet --depth=1 https://github.com/kdrag0n/proton-clang
+    git clone --quiet --depth=1 https://github.com/Nicklas373/aosp-clang
+    git clone --quiet --depth=1 https://github.com/arter97/arm64-gcc
+    git clone --quiet --depth=1 https://github.com/arter97/arm32-gcc
     function build_now() {
-        export PATH="$(pwd)/proton-clang/bin:$PATH"
+        export PATH="$(pwd)/aosp-clang/bin:$(pwd)/arm64-gcc/bin:$(pwd)/arm32-gcc/bin:$PATH"
         make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
-        CC=clang CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi-
+        CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi-
     }
 elif [[ "$2" == "gcc" ]] ; then
     git clone --quiet --depth=1 https://github.com/timangpopi1/arm64-gcc-linaro-4.9-2016 -b old gcc
