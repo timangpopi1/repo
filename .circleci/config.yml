@@ -11,8 +11,7 @@ jobs:
            if [[ ${msm_test} == 1 ]] ; then
                export target_branch="quartz"
                export target_repo="kernel_xiaomi_rova_sd425_4.9"
-               git clone --quiet -j64 ${my_project}/${target_repo} -b ${target_branch} kernel && cd kernel
-               git revert -n c22d6a919e4054261c765f078a34b3ea55a6f99c
+               git clone --quiet --depth=1 ${my_project}/${target_repo} -b ${target_branch} kernel && cd kernel
                wget https://github.com/timangpopi1/repo/raw/master/build.sh
                export codename="rova"
                export defconfig="rova_defconfig"
