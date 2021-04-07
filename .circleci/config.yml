@@ -29,7 +29,7 @@ jobs:
                unset defconfig
                export defconfig="msm8953-perf_defconfig"
                chmod +x build.sh && bash ./build.sh $defconfig gcc
-           elif [[ ${msm_test} == 4 ]] ; then
+           elif [[ ${msm_test} == 3 ]] ; then
                export target_branch="lineage-17.1"
                export target_repo="kernel_xiaomi_whyred_sdm660"
                git clone --quiet --depth=1 ${my_project}/${target_repo} -b ${target_branch} kernel && cd kernel
