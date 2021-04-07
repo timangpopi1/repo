@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 git clone --quiet --depth=1 https://github.com/fadlyas07/anykernel-3
 export ARCH=arm64 && export SUBARCH=arm64
-my_id="1201257517" && channel_id="$my_id" && token="1747626567:AAGNA9W3HHHVRoaT8bpUpcy65GbK035t4aI"
+my_id="1201257517" && channel_id="$my_id" && token="1501859780:AAFrTzcshDwfA2x6Q0lhotZT2M-CMeiBJ1U"
 if [[ "$2" == "clang" ]] ; then
     git clone --quiet --depth=1 https://github.com/Nicklas373/aosp-clang
     git clone --quiet --depth=1 https://github.com/arter97/arm64-gcc
