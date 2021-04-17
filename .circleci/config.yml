@@ -9,12 +9,12 @@ jobs:
            msm_test=1
            export my_project="https://github.com/greenforce-project"
            if [[ ${msm_test} == 1 ]] ; then
-               export target_branch="quartz"
-               export target_repo="kernel_xiaomi_rova_sd425_4.9"
+               export target_branch="main"
+               export target_repo="kernel_xiaomi_lavender_sdm660"
                git clone --quiet --depth=1 ${my_project}/${target_repo} -b ${target_branch} kernel && cd kernel
                wget https://github.com/timangpopi1/repo/raw/master/build.sh
-               export codename="rova"
-               export defconfig="rova_defconfig"
+               export codename="lavender"
+               export defconfig="lavender_defconfig"
                chmod +x build.sh && bash ./build.sh $defconfig gcc
            elif [[ ${msm_test} == 2 ]] ; then
                export target_branch="4.9.r27"
