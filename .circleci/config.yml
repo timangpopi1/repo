@@ -14,7 +14,7 @@ jobs:
                git clone --quiet --depth=1 ${my_project}/${target_repo} -b ${target_branch} kernel && cd kernel
                wget https://github.com/timangpopi1/repo/raw/master/build.sh
                export codename="lavender"
-               export defconfig="lavender_defconfig"
+               export defconfig="lavender-perf_defconfig"
                chmod +x build.sh && bash ./build.sh $defconfig gcc
            elif [[ ${msm_test} == 2 ]] ; then
                export target_branch="4.9.r27"
