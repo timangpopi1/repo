@@ -11,9 +11,9 @@ if [[ "$2" == "clang" ]] ; then
         CROSS_COMPILE=aarch64-linux-gnu- OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump STRIP=llvm-strip
     }
 elif [[ "$2" == "gcc" ]] ; then
-    git clone --quiet --depth=1 https://github.com/arter97/arm64-gcc
+    git clone --quiet --depth=1 https://github.com/crdroidmod/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-gnu-7.5.0 gcc
     function build_now() {
-        export PATH="$(pwd)/arm64-gcc/bin:$PATH"
+        export PATH="$(pwd)/gcc/bin:$PATH"
         make -j$(nproc) -l$(nproc) ARCH=arm64 O=out CROSS_COMPILE=aarch64-linux-gnu-
     }
 elif [[ "$2" == "gcc-elf" ]] ; then
