@@ -11,10 +11,10 @@ if [[ "$2" == "clang" ]] ; then
         CROSS_COMPILE=aarch64-linux-gnu- OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump STRIP=llvm-strip
     }
 elif [[ "$2" == "gcc" ]] ; then
-    git clone --quiet --depth=1 https://github.com/timangpopi1/arm64-gcc-linaro-4.9-2016 -b old gcc
+    git clone --quiet --depth=1 https://github.com/arter97/arm64-gcc
     function build_now() {
-        export PATH="$(pwd)/gcc/bin:$PATH"
-        make -j$(nproc) -l$(nproc) ARCH=arm64 O=out CROSS_COMPILE=aarch64-linux-android-
+        export PATH="$(pwd)/arm64-gcc/bin:$PATH"
+        make -j$(nproc) -l$(nproc) ARCH=arm64 O=out CROSS_COMPILE=aarch64-linux-gnu-
     }
 elif [[ "$2" == "gcc-elf" ]] ; then
     git clone --quiet --depth=1 https://github.com/arter97/arm64-gcc
