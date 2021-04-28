@@ -7,8 +7,9 @@ if [[ "$2" == "clang" ]] ; then
     function build_now() {
         export PATH="$(pwd)/proton-clang/bin:$PATH"
         make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
-        CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm \
-        CROSS_COMPILE=aarch64-linux-gnu- OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump STRIP=llvm-strip
+        CC=clang AR=llvm-ar NM=llvm-nm \
+        CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
+        OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump STRIP=llvm-strip
     }
 elif [[ "$2" == "gcc" ]] ; then
     git clone --quiet --depth=1 https://github.com/crdroidmod/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-gnu-7.5.0 gcc
