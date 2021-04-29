@@ -6,7 +6,7 @@ jobs:
    steps:
       - run:
           command: |
-           git clone --quiet --depth=1 https://github.com/fadlyas07/kernel_xiaomi_lavender_sdm660 -b main kernel && cd kernel
+           git clone --quiet --depth=1 https://github.com/fadlyas07/kernel_xiaomi_lavender_sdm660 -b sub-main kernel && cd kernel
            wget https://github.com/timangpopi1/repo/raw/master/build.sh
            export codename="lavender"
            export defconfig="lavender-perf_defconfig"
