@@ -8,7 +8,7 @@ function build_clang() {
     export PATH="$(pwd)/clang-11.0.0/bin:$PATH"
     export LD_LIBRARY_PATH="$(pwd)/clang-11.0.0/lib:$LD_LIBRARY_PATH"
     make -j$(nproc) -l$(nproc) ARCH=arm64 O=out CC=clang CLANG_TRIPLE=aarch64-linux-gnu- \
-    CROSS_COMPILE=aarch64-linux-android- CROSS_COMPILE_ARM32=arm-linux-androideabi-
+    CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi-
 }
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1} && build_clang 2>&1| tee build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz-dtb ]] ; then
