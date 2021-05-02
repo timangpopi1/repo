@@ -6,8 +6,15 @@ jobs:
    steps:
       - run:
           command: |
-           git clone --quiet --depth=1 https://github.com/fadlyas07/kernel_xiaomi_citrus_sdm662 -b main kernel && cd kernel
-           wget https://github.com/timangpopi1/repo/raw/master/build.sh
-           export codename="citrus"
-           export defconfig="vendor/citrus-perf_defconfig"
-           chmod +x build.sh && bash ./build.sh $defconfig AoSpM
+           TYPE=2
+           if [[ $TYPE == 1 ]] ; then
+               git clone --quiet --depth=1 https://github.com/fadlyas07/kernel_xiaomi_lavender_sdm660 -b main kernel
+               cd kernel && wget https://github.com/timangpopi1/repo/raw/master/build.sh
+               export codename="lavender" && export defconfig="lavender-perf_defconfig"
+               chmod +x build.sh && bash ./build.sh $defconfig AoSpM
+           elif [[ $TYPE == 2 ]] ; then
+               git clone --quiet --depth=1 https://github.com/fadlyas07/kernel_xiaomi_citrus_sdm662 -b main kernel
+               cd kernel && wget https://github.com/timangpopi1/repo/raw/master/build.sh
+               export codename="citrus" && export defconfig="vendor/citrus_defconfig"
+               chmod +x build.sh && bash ./build.sh $defconfig AoSpM
+           fi
