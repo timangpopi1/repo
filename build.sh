@@ -10,7 +10,19 @@ function build_clang() {
     make -j$(nproc) -l$(nproc) ARCH=arm64 O=out CC=clang CLANG_TRIPLE=aarch64-linux-gnu- \
     CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi-
 }
-make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1} && build_clang 2>&1| tee build.log
+function build_gcc() {
+    git clone --quiet --depth=1 https://github.com/arter97/arm64-gcc
+    git clone --quiet --depth=1 https://github.com/arter97/arm32-gcc
+    export PATH="$(pwd)/arm64-gcc/bin:$(pwd)/arm32-gcc/bin:$PATH"
+    make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
+    CROSS_COMPILE=aarch64-elf- CROSS_COMPILE_ARM32=arm-eabi-
+}
+make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1} && \
+if [[ $codename == lavender ]] ; then
+    export DEVICE="Xiaomi Redmi Note 7/7S" && build_clang 2>&1| tee build.log
+elif [[ $codename == citrus ]] ; then
+    export DEVICE="POCO M3" && build_gcc 2>&1| tee build.log
+fi
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz-dtb ]] ; then
     curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${my_id}
     curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="Build failed! at branch $(git rev-parse --abbrev-ref HEAD)"
@@ -20,5 +32,5 @@ curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDoc
 mv $(pwd)/out/arch/arm64/boot/Image.gz-dtb $(pwd)/anykernel-3
 cd $(pwd)/anykernel-3 && zip -r9q "${2}"-"${codename}"-"$(TZ=Asia/Jakarta date +'%d%m%y')".zip *
 cd .. && curl -F "disable_web_page_preview=true" -F "parse_mode=html" -F document=@$(echo $(pwd)/anykernel-3/*.zip) "https://api.telegram.org/bot${token}/sendDocument" -F caption="
-New updates for <b>Xiaomi Redmi Note 7/7S</b> based on Linux <b>$(cat $(pwd)/out/.config | grep Linux/arm64 | cut -d " " -f3)</b> at commit $(git log --pretty=format:"%h (\"%s\")" -1) | <b>SHA1:</b> $(sha1sum "$(echo $(pwd)/anykernel-3/*.zip)" | awk '{ print $1 }')" -F chat_id=${channel_id}
+New updates for <b>$DEVICE</b> based on Linux <b>$(cat $(pwd)/out/.config | grep Linux/arm64 | cut -d " " -f3)</b> at commit $(git log --pretty=format:"%h (\"%s\")" -1) | <b>SHA1:</b> $(sha1sum "$(echo $(pwd)/anykernel-3/*.zip)" | awk '{ print $1 }')" -F chat_id=${channel_id}
 rm -rf out $(pwd)/anykernel-3/*.zip $(pwd)/anykernel-3/zImage $(pwd)/*.log
