@@ -10,23 +10,16 @@ function build_clang() {
     make -j$(nproc) -l$(nproc) ARCH=arm64 O=out CC=clang CLANG_TRIPLE=aarch64-linux-gnu- \
     CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi-
 }
-function build_gcc() {
-    git clone --quiet --depth=1 https://github.com/arter97/arm64-gcc
-    git clone --quiet --depth=1 https://github.com/arter97/arm32-gcc
-    export PATH="$(pwd)/arm64-gcc/bin:$(pwd)/arm32-gcc/bin:$PATH"
-    make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
-    CROSS_COMPILE=aarch64-elf- CROSS_COMPILE_ARM32=arm-eabi-
-}
-make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1} && \
-if [[ $codename == lavender ]] ; then
-    export DEVICE="Xiaomi Redmi Note 7/7S" && build_clang 2>&1| tee build.log
-elif [[ $codename == citrus ]] ; then
-    export DEVICE="POCO M3" && build_gcc 2>&1| tee build.log
-fi
+make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1} && build_clang 2>&1| tee build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz-dtb ]] ; then
     curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${my_id}
     curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="Build failed! at branch $(git rev-parse --abbrev-ref HEAD)"
   exit 1 ;
+fi
+if [[ $codename == lavender ]] ; then
+    export DEVICE="Xiaomi Redmi Note 7/7S"
+elif [[ $codename == citrus ]] ; then
+    export DEVICE="POCO M3"
 fi
 curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${my_id}
 mv $(pwd)/out/arch/arm64/boot/Image.gz-dtb $(pwd)/anykernel-3
