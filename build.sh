@@ -4,9 +4,9 @@ export ARCH=arm64 && export SUBARCH=arm64
 my_id="1201257517" && channel_id="-1001360920692" && token="1501859780:AAFrTzcshDwfA2x6Q0lhotZT2M-CMeiBJ1U"
 export KBUILD_BUILD_USER=Source.$(git rev-parse --abbrev-ref HEAD) && export KBUILD_BUILD_HOST=$(git log --pretty=format:'%T' -1 | cut -b 1-16)
 function build_clang() {
-    git clone --quiet --depth=1 https://github.com/greenforce-project/clang-11.0.0
-    export PATH="$(pwd)/clang-11.0.0/bin:$PATH"
-    export LD_LIBRARY_PATH="$(pwd)/clang-11.0.0/lib:$LD_LIBRARY_PATH"
+    git clone --quiet --depth=1 https://github.com/greenforce-project/clang-llvm
+    export PATH="$(pwd)/clang-llvm/bin:$PATH"
+    export LD_LIBRARY_PATH="$(pwd)/clang-llvm/lib:$LD_LIBRARY_PATH"
     make -j$(nproc) -l$(nproc) ARCH=arm64 O=out CC=clang CLANG_TRIPLE=aarch64-linux-gnu- \
     CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi-
 }
