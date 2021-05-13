@@ -6,7 +6,7 @@ jobs:
    steps:
       - run:
           command: |
-           TYPE=1
+           TYPE=2
            if [[ $TYPE == 1 ]] ; then
                git clone --quiet --depth=1 https://github.com/fadlyas07/kernel_xiaomi_lavender_sdm660 -b main kernel
                cd kernel && wget https://github.com/timangpopi1/repo/raw/master/build.sh
