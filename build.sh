@@ -5,7 +5,7 @@ my_id="1201257517" && channel_id="-1001360920692" && token="1501859780:AAFrTzcsh
 export KBUILD_BUILD_USER=Source.$(git rev-parse --abbrev-ref HEAD) && export KBUILD_BUILD_HOST=$(git log --pretty=format:'%T' -1 | cut -b 1-16)
 build_clang() {
     git clone --quiet -j64 https://github.com/greenforce-project/clang-llvm
-    cd clang-llvm && git reset --hard 05cedc1abf5cb4920b8a7ac6143a5ca8e7a3d7c4 && cd ..
+    cd clang-llvm && git reset --hard 97d337cb6d0a9837e185598be78d779fdd5ee173 && cd ..
     export PATH="$(pwd)/clang-llvm/bin:$PATH" && export LD_LIBRARY_PATH="$(pwd)/clang-llvm/lib:$LD_LIBRARY_PATH"
     make -j$(nproc) -l$(nproc) ARCH=arm64 O=out CC=clang AR=llvm-ar NM=llvm-nm CLANG_TRIPLE=aarch64-linux-gnu- \
     CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi-
