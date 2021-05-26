@@ -20,8 +20,8 @@ if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz-dtb ]] ; then
 fi
 if [[ $codename == lavender ]] ; then
     export DEVICE="Xiaomi Redmi Note 7/7S"
-elif [[ $codename == citrus ]] ; then
-    export DEVICE="POCO M3"
+elif [[ $codename == juice ]] ; then
+    export DEVICE="POCO M3/Redmi 9T"
 fi
 curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${my_id}
 mv $(pwd)/out/arch/arm64/boot/Image.gz-dtb $(pwd)/anykernel-3
