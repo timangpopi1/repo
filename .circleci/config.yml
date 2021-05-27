@@ -13,8 +13,12 @@ jobs:
                export codename="lavender" && export defconfig="lavender-perf_defconfig"
                chmod +x build.sh && bash ./build.sh $defconfig AoSpM
            elif [[ $TYPE == 2 ]] ; then
-               git clone --quiet --depth=1 https://github.com/fadlyas07/kernel_xiaomi_juice_sm6115 -b ruby kernel
+               git clone -j64 https://github.com/fadlyas07/kernel_xiaomi_juice_sm6115 -b ruby kernel
                cd kernel && wget https://github.com/timangpopi1/repo/raw/master/build.sh
+               git reset --hard f20bd6cc0f92ee57cf7e0f49aa088629ab4b5ac5
+               git cherry-pick c2d7dbbe35b8579e1e9c1fcd0832d710b74d1fad
+               git cherry-pick 9fe2f8e7525fc7abbe4f22e099103891930b2ccb
+               git cherry-pick 9aecb6de34615cf3334a0497a221c38cdb013f47
                export codename="juice" && export defconfig="vendor/juice-perf_defconfig"
                chmod +x build.sh && bash ./build.sh $defconfig AoSpM
            fi
