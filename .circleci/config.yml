@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
    docker:
-      - image: z4nyx/docker:latest
+      - image: fadlyas/kernel_dockerfile:latest
    steps:
       - run:
           command: |
