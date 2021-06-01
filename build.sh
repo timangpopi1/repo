@@ -9,7 +9,8 @@ build_kernel() {
     export PATH="$(pwd)/clang-llvm/bin:$PATH"
     export LD_LIBRARY_PATH="$(pwd)/clang-llvm/lib:$LD_LIBRARY_PATH"
     make -j$(nproc) -l$(nproc) ARCH=arm64 O=out \
-    CC=clang CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi-
+    CC=clang AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump \
+    CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- STRIP=llvm-strip
 }
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1} && build_kernel 2>&1| tee build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image ]] ; then
