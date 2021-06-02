@@ -6,7 +6,7 @@ jobs:
    steps:
       - run:
           command: |
-           apt-install -y tzdata
+           apt-get -y install tzdata
            TYPE=2
            if [[ $TYPE == 1 ]] ; then
                git clone --quiet --depth=1 https://github.com/fadlyas07/kernel_xiaomi_lavender_sdm660 -b main kernel
