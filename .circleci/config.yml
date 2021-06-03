@@ -6,7 +6,9 @@ jobs:
    steps:
       - run:
           command: |
-           apt-get -y install tzdata
+           apt-get -y install tzdata && TZ=Etc/GMT-7 && \
+           ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone &&\
+           echo "Now Date sets to : $TZ"
            TYPE=2
            if [[ $TYPE == 1 ]] ; then
                git clone --quiet --depth=1 https://github.com/fadlyas07/kernel_xiaomi_lavender_sdm660 -b main kernel
