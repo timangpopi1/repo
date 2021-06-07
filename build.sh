@@ -6,7 +6,7 @@ export KBUILD_BUILD_USER=fadlyas07.greenforce-project && export KBUILD_BUILD_HOS
 build_kernel() {
     git clone --quiet -j64 --depth=1 -b android-9.0.0_r45 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 gcc
     git clone --quiet -j64 --depth=1 -b android-9.0.0_r45 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 gcc32
-    git clone --quiet -j64 --depth=1 -b r365631c2 https://github.com/greenforce-project/aosp_clang aosp-clang
+    git clone --quiet -j64 --depth=1 -b 10.0 https://github.com/crdroidandroid/android_prebuilts_clang_host_linux-x86_clang-6443078 aosp-clang
     export PATH="$(pwd)/aosp-clang/bin:$(pwd)/gcc/bin:$(pwd)/gcc32/bin:$PATH"
     export LD_LIBRARY_PATH="$(pwd)/aosp-clang/lib:$LD_LIBRARY_PATH"
     make -j$(nproc) -l$(nproc) ARCH=arm64 O=out CC=clang \
