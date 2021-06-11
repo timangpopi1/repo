@@ -5,12 +5,11 @@ my_id="1201257517" && channel_id="-1001360920692" && token="1501859780:AAFrTzcsh
 export KBUILD_BUILD_USER=fadlyas07.greenforce-project && export KBUILD_BUILD_HOST=$(git log --pretty=format:'%T' -1 | cut -b 1-16)
 build_kernel() {
     git clone --quiet -j64 --depth=1 -b android-9.0.0_r45 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 gcc
-    git clone --quiet -j64 --depth=1 -b android-9.0.0_r45 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 gcc32
-    git clone --quiet -j64 --depth=1 -b 10.0 https://github.com/crdroidandroid/android_prebuilts_clang_host_linux-x86_clang-6032204 aosp-clang
-    export PATH="$(pwd)/aosp-clang/bin:$(pwd)/gcc/bin:$(pwd)/gcc32/bin:$PATH"
+    git clone --quiet -j64 --depth=1 -b r365631 https://github.com/Nicklas373/aosp-clang aosp-clang
+    export PATH="$(pwd)/aosp-clang/bin:$(pwd)/gcc/bin:$PATH"
     export LD_LIBRARY_PATH="$(pwd)/aosp-clang/lib:$LD_LIBRARY_PATH"
     make -j$(nproc) -l$(nproc) ARCH=arm64 O=out CC=clang \
-    CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-android- CROSS_COMPILE_ARM32=arm-linux-androideabi-
+    CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-android-
 }
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1} && build_kernel 2>&1| tee build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image ]] ; then
