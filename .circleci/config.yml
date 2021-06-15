@@ -2,11 +2,12 @@ version: 2
 jobs:
   build:
    docker:
-      - image: z4nyx/docker:latest
+      - image: ubuntu:18.04
    steps:
       - run:
           command: |
-           apt-get -y install tzdata
+           apt-get -y update && apt-get -y upgrade && apt-get -y install bc bison ca-certificates curl flex gcc \
+           git libc6-dev libssl-dev make openssl python ssh tzdata wget zip
            TYPE=2
            if [[ $TYPE == 1 ]] ; then
                git clone --quiet --depth=1 https://github.com/fadlyas07/kernel_xiaomi_lavender_sdm660 -b main kernel
