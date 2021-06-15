@@ -4,10 +4,9 @@ export ARCH=arm64 && export SUBARCH=arm64
 my_id="1201257517" && channel_id="-1001360920692" && token="1501859780:AAFrTzcshDwfA2x6Q0lhotZT2M-CMeiBJ1U"
 export KBUILD_BUILD_USER=fadlyas07.greenforce-project && export KBUILD_BUILD_HOST=$(git log --pretty=format:'%T' -1 | cut -b 1-16)
 build_kernel() {
-    git clone --quiet -j64 --depth=1 -b master https://github.com/timangpopi1/arm64-gcc
-    git clone --quiet -j64 --depth=1 -b master https://github.com/timangpopi1/arm32-gcc
-    export PATH="$(pwd)/arm64-gcc/bin:(pwd)/arm32-gcc/bin:$PATH"
-    make -j$(nproc) -l$(nproc) ARCH=arm64 O=out CROSS_COMPILE=aarch64-elf- CROSS_COMPILE_ARM32=arm-eabi-
+    git clone --quiet -j64 --depth=1 -b master https://github.com/greenforce-project/clang-llvm
+    export PATH="$(pwd)/clang-llvm/bin:$PATH"
+    make -j$(nproc) -l$(nproc) ARCH=arm64 O=out CC=clang CROSS_COMPILE=aarch64-linux-gnu-
 }
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1} && build_kernel 2>&1| tee build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image ]] ; then
