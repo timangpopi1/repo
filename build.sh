@@ -6,7 +6,9 @@ export KBUILD_BUILD_USER=fadlyas07.greenforce-project && export KBUILD_BUILD_HOS
 build_kernel() {
     git clone --quiet -j64 --depth=1 -b master https://github.com/greenforce-project/clang-llvm
     export PATH="$(pwd)/clang-llvm/bin:$PATH"
-    make -j$(nproc) -l$(nproc) ARCH=arm64 O=out CC=clang CROSS_COMPILE=aarch64-linux-gnu-
+    make -j$(nproc) -l$(nproc) ARCH=arm64 O=out CC="clang" AR="llvm-ar" NM="llvm-nm" \
+    OBJCOPY="llvm-objcopy" OBJDUMP="llvm-objdump" STRIP="llvm-strip" \
+    CROSS_COMPILE="aarch64-linux-gnu-" CROSS_COMPILE_ARM32="arm-linux-gnueabi-" LD="ld.lld"
 }
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1} && build_kernel 2>&1| tee build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image ]] ; then
