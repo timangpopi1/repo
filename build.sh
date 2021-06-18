@@ -2,13 +2,11 @@
 git clone --quiet --depth=1 https://github.com/fadlyas07/anykernel-3
 export ARCH=arm64 && export SUBARCH=arm64
 my_id="1201257517" && channel_id="-1001360920692" && token="1501859780:AAFrTzcshDwfA2x6Q0lhotZT2M-CMeiBJ1U"
-export KBUILD_BUILD_USER=fadlyas07.greenforce-project && export KBUILD_BUILD_HOST=$(git log --pretty=format:'%T' -1 | cut -b 1-16)
+export KBUILD_BUILD_USER=fadlyas07 && export KBUILD_BUILD_HOST=greenforce-project && export KBUILD_BUILD_TIMESTAMP=$(TZ=Asia/Jakarta date)
 build_kernel() {
-    git clone --quiet -j64 --depth=1 -b master https://github.com/greenforce-project/clang-llvm
-    export PATH="$(pwd)/clang-llvm/bin:$PATH"
-    make -j$(nproc) -l$(nproc) ARCH=arm64 O=out CC="clang" AR="llvm-ar" NM="llvm-nm" \
-    OBJCOPY="llvm-objcopy" OBJDUMP="llvm-objdump" STRIP="llvm-strip" \
-    CROSS_COMPILE="aarch64-linux-gnu-" CROSS_COMPILE_ARM32="arm-linux-gnueabi-"
+    git clone --quiet -j64 --depth=1 -b master https://github.com/arter97/arm64-gcc
+    export PATH="$(pwd)/arm64-gcc/bin:$PATH"
+    make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out CROSS_COMPILE=aarch64-elf-
 }
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1} && build_kernel 2>&1| tee build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image ]] ; then
