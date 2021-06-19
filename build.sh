@@ -5,9 +5,9 @@ my_id="1201257517" && channel_id="-1001360920692" && token="1501859780:AAFrTzcsh
 export KBUILD_BUILD_USER=fadlyas07 && export KBUILD_BUILD_HOST=greenforce-project && export KBUILD_BUILD_TIMESTAMP=$(TZ=Asia/Jakarta date)
 build_kernel() {
     git clone --quiet -j64 --depth=1 -b ruby-12 https://github.com/ThankYouMario/proprietary_vendor_qcom_sdclang sd-clang
-    git clone --quiet -j64 --depth=1 -b master https://github.com/timangpopi1/arm64-gcc gcc
+    git clone --quiet -j64 --depth=1 -b old https://github.com/timangpopi1/arm64-gcc-linaro-4.9-2016 gcc
     export PATH="$(pwd)/sd-clang/bin:$(pwd)/gcc/bin:$PATH"
-    make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out CC=clang CROSS_COMPILE=aarch64-elf-
+    make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out CC=clang CROSS_COMPILE=aarch64-linux-android-
 }
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1} && build_kernel 2>&1| tee build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image ]] ; then
