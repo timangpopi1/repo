@@ -4,7 +4,7 @@ git clone --quiet -j64 --depth=1 https://github.com/mvaisakh/gcc-arm64
 export ARCH=arm64 && export SUBARCH=arm64 && check_date=$(TZ=Asia/Jakarta date)
 my_id="1201257517" && channel_id="-1001360920692" && token="1501859780:AAFrTzcshDwfA2x6Q0lhotZT2M-CMeiBJ1U"
 export PATH="$(pwd)/gcc-arm64/bin:$PATH"
-make -j$(nproc) -l$(nproc) -s \
+make -j$(nproc) -l$(nproc) \
     ARCH=arm64 \
     CROSS_COMPILE=aarch64-elf- \
     O=out \
