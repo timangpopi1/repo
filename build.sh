@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 git clone --quiet -j64 --depth=1 https://github.com/fadlyas07/anykernel-3
-git clone --quiet -j64 --depth=1 -b master https://github.com/mvaisakh/gcc-arm64
+git clone --quiet -j64 --depth=1 https://github.com/mvaisakh/gcc-arm64
 export ARCH=arm64 && export SUBARCH=arm64 && check_date=$(TZ=Asia/Jakarta date)
 my_id="1201257517" && channel_id="-1001360920692" && token="1501859780:AAFrTzcshDwfA2x6Q0lhotZT2M-CMeiBJ1U"
 export PATH="$(pwd)/gcc-arm64/bin:$PATH"
