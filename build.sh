@@ -7,7 +7,7 @@ build_kernel() {
     apt-get -y install  clang aarch64-linux-gnu
 #    git clone --quiet -j64 -b master https://github.com/greenforce-project/clang-llvm
 #    cd clang-llvm && git reset --hard dce883f8a8bbcbb5386162fe2a25bd706bd67e05 && cd ..
-    export PATH="/usr/bin:$PATH"
+#   export PATH="/usr/bin:$PATH"
 #    export LD_LIBRARY_PATH="$(pwd)/clang-llvm/lib:$LD_LIBRARY_PATH"
     make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out CC=clang CROSS_COMPILE=aarch64-linux-gnu-
 }
