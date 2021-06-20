@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
-git clone --quiet --depth=1 https://github.com/fadlyas07/anykernel-3
-export ARCH=arm64 && export SUBARCH=arm64
+git clone --quiet -j64 --depth=1 https://github.com/fadlyas07/anykernel-3
+git clone --quiet -j64 --depth=1 -b master https://github.com/mvaisakh/gcc-arm64
+export ARCH=arm64 && export SUBARCH=arm64 && check_date=$(TZ=Asia/Jakarta date)
 my_id="1201257517" && channel_id="-1001360920692" && token="1501859780:AAFrTzcshDwfA2x6Q0lhotZT2M-CMeiBJ1U"
-export KBUILD_BUILD_USER=fadlyas07 && export KBUILD_BUILD_HOST=greenforce-project && export KBUILD_BUILD_TIMESTAMP=$(TZ=Asia/Jakarta date)
-build_kernel() {
-    apt-get -y install  clang aarch64-linux-gnu
-#    git clone --quiet -j64 -b master https://github.com/greenforce-project/clang-llvm
-#    cd clang-llvm && git reset --hard dce883f8a8bbcbb5386162fe2a25bd706bd67e05 && cd ..
-#   export PATH="/usr/bin:$PATH"
-#    export LD_LIBRARY_PATH="$(pwd)/clang-llvm/lib:$LD_LIBRARY_PATH"
-    make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out CC=clang CROSS_COMPILE=aarch64-linux-gnu-
-}
-make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1} && build_kernel 2>&1| tee build.log
+export PATH="$(pwd)/gcc-arm64/bin:$PATH"
+make -j$(nproc) -l$(nproc) -s \
+    ARCH=arm64 \
+    CROSS_COMPILE=aarch64-elf- \
+    O=out \
+    KBUILD_BUILD_USER=fadlyas \
+    KBUILD_BUILD_HOST=yeetnosense \
+    KBUILD_BUILD_TIMESTAMP=$check_date \
+    ${1} all 2>&1| tee build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image ]] ; then
     curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${my_id}
     curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="Build failed! at branch $(git rev-parse --abbrev-ref HEAD)"
