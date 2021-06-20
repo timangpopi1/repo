@@ -4,10 +4,10 @@ export ARCH=arm64 && export SUBARCH=arm64
 my_id="1201257517" && channel_id="-1001360920692" && token="1501859780:AAFrTzcshDwfA2x6Q0lhotZT2M-CMeiBJ1U"
 export KBUILD_BUILD_USER=fadlyas07 && export KBUILD_BUILD_HOST=greenforce-project && export KBUILD_BUILD_TIMESTAMP=$(TZ=Asia/Jakarta date)
 build_kernel() {
-    git clone --quiet -j64 --depth=1 -b ruby-12 https://github.com/ThankYouMario/proprietary_vendor_qcom_sdclang sd-clang
-    git clone --quiet -j64 --depth=1 -b old https://github.com/timangpopi1/arm64-gcc-linaro-4.9-2016 gcc
-    export PATH="$(pwd)/sd-clang/bin:$(pwd)/gcc/bin:$PATH"
-    make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out CC=clang CROSS_COMPILE=aarch64-linux-android-
+    git clone --quiet -j64 -b master https://github.com/greenforce-project/clang-llvm
+    cd clang-llvm && git reset --hard dce883f8a8bbcbb5386162fe2a25bd706bd67e05 && cd ..
+    export PATH="$(pwd)/clang-llvm/bin:$PATH"
+    make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out CC=clang CROSS_COMPILE=aarch64-linux-gnu-
 }
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1} && build_kernel 2>&1| tee build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image ]] ; then
