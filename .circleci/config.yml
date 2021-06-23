@@ -6,12 +6,8 @@ jobs:
    steps:
       - run:
           command: |
-           ubuntu_codename=`lsb_release -c | cut -f2`
            apt-get -y update && apt-get -y upgrade && apt-get -y install clang llvm lld binutils-aarch64-linux-gnu gcc-aarch64-linux-gnu binutils-arm-linux-gnueabi gcc-arm-linux-gnueabi \
-           bc bison ca-certificates curl flex gcc git libc6-dev libssl-dev make openssl python ssh sudo wget zip libncurses-dev flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf
-           wget https://apt.llvm.org/llvm-snapshot.gpg.key
-           sudo apt-key add llvm-snapshot.gpg.key
-           sudo add-apt-repository "deb http://apt.llvm.org/$ubuntu_codename/ llvm-toolchain-$ubuntu_codename main"
+           bc bison ca-certificates curl flex gcc git libc6-dev libssl-dev make openssl python ssh sudo wget zip libncurses-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf
            TZ=Asia/Jakarta && sudo ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
            apt-get -y install tzdata
            TYPE=2
