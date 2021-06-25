@@ -17,8 +17,8 @@ jobs:
                export codename="lavender" && export defconfig="lavender-perf_defconfig"
                chmod +x build.sh && bash ./build.sh $defconfig AoSpM
            elif [[ $TYPE == 2 ]] ; then
-               git clone --quiet --depth=1 https://github.com/jesec/android_kernel_samsung_sm8250 kernel
+               git clone --quiet --depth=1 https://github.com/kdrag0n/proton_kernel_redbull -b master kernel
                cd kernel && wget https://github.com/timangpopi1/repo/raw/master/build.sh
-               export codename="samsung-kona" && export defconfig="vendor/kona_sec_custom_defconfig"
+               export codename="redbull" && export defconfig="redbull_defconfig"
                chmod +x build.sh && bash ./build.sh $defconfig AoSpM
            fi
