@@ -4,9 +4,10 @@ export ARCH=arm64 && export SUBARCH=arm64 && check_date=$(TZ=Asia/Jakarta date)
 my_id="1201257517" && channel_id="-1001360920692" && token="1501859780:AAFrTzcshDwfA2x6Q0lhotZT2M-CMeiBJ1U"
 export KBUILD_BUILD_USER=fadlyas07 && export KBUILD_BUILD_HOST=greenforce-project && export KBUILD_BUILD_TIMESTAMP=$check_date
 build_kernel() {
-    git clone --quiet -j64 --depth=1 -b non-elf/gcc-10.1.0/arm64 https://github.com/zeta96/gcc-priv-toolchains gcc
-    export PATH="$(pwd)/gcc/bin:$PATH"
-    make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out CROSS_COMPILE=aarch64-linux-
+    git clone --quiet -j64 --depth=1 -b main https://github.com/greenforce-project/gcc-arm64 gcc
+    git clone --quiet -j64 --depth=1 -b main https://github.com/greenforce-project/gcc-arm32 gcc32
+    export PATH="$(pwd)/gcc/bin:$(pwd)/gcc32/bin:$PATH"
+    make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out CROSS_COMPILE=aarch64-linux- CROSS_COMPILE_COMPAT=arm-eabi-
 }
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1} && build_kernel 2>&1| tee build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image ]] ; then
