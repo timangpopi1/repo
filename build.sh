@@ -7,7 +7,7 @@ build_kernel() {
     git clone --quiet -j64 --depth=1 -b main https://github.com/greenforce-project/gcc-arm64 gcc
     git clone --quiet -j64 --depth=1 -b main https://github.com/greenforce-project/gcc-arm32 gcc32
     export PATH="$(pwd)/gcc/bin:$(pwd)/gcc32/bin:$PATH"
-    make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out CROSS_COMPILE=aarch64-linux- CROSS_COMPILE_COMPAT=arm-eabi-
+    make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out CROSS_COMPILE=aarch64-elf- CROSS_COMPILE_COMPAT=arm-eabi-
 }
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out ${1} && build_kernel 2>&1| tee build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image ]] ; then
