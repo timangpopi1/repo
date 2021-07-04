@@ -12,10 +12,17 @@ build_kernel() {
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out $kernel_defconfig
 rm -rf $(pwd)/out/.config && cp $(pwd)/arch/arm64/configs/$kernel_defconfig $(pwd)/out/.config
 build_kernel 2>&1| tee build.log
-if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz-dtb ]] ; then
+if [[ ! -f $(pwd)/out/arch/arm64/boot/Image ]] ; then
     curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${my_id}
     curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="Build failed! at branch $(git rev-parse --abbrev-ref HEAD)"
   exit 1 ;
+else
+    if [[ -e $(pwd)/out/.config ]] ; then
+        cp $(pwd)/out/.config regen_defconfig
+        curl -F document=@$(pwd)/regen_defconfig "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${my_id}
+    else
+        echo "unfortunately .config not found"
+    fi
 fi
 if [[ $codename == lavender ]] ; then
     export DEVICE="Redmi Note 7/7S"
