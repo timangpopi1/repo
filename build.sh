@@ -5,7 +5,7 @@ my_id="1201257517" && channel_id="-1001360920692" && token="1501859780:AAFrTzcsh
 export KBUILD_BUILD_USER=fadlyas07 && export KBUILD_BUILD_HOST=greenforce-project
 build_kernel() {
     git clone --quiet -j64 --depth=1 --single-branch https://gitlab.com/najahi/clang.git nusantara
-    PATH="$(pwd)/nusantara/bin:$PATH" && \
+    export PATH="$(pwd)/nusantara/bin:$PATH"
     make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out CC=clang CROSS_COMPILE=aarch64-linux-gnu- LD=ld.lld
 }
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out $kernel_defconfig && build_kernel 2>&1| tee build.log
