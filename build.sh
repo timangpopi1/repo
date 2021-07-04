@@ -8,8 +8,9 @@ build_kernel() {
     export PATH="$(pwd)/nusantara/bin:$PATH"
     make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out CC=clang CROSS_COMPILE=aarch64-linux-gnu- LD=ld.lld
 }
-make -j$(nproc) -l$(nproc) ARCH=arm64 O=out $kernel_defconfig && build_kernel 2>&1| tee build.log
+make -j$(nproc) -l$(nproc) ARCH=arm64 O=out $kernel_defconfig
 rm -rf $(pwd)/out/.config && cp $(pwd)/arch/arm64/configs/$kernel_defconfig $(pwd)/out/.config
+build_kernel 2>&1| tee build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz-dtb ]] ; then
     curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${my_id}
     curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="Build failed! at branch $(git rev-parse --abbrev-ref HEAD)"
