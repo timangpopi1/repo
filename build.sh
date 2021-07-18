@@ -10,7 +10,7 @@ build_kernel() {
     OBJDUMP=llvm-objdump STRIP=llvm-strip CROSS_COMPILE=aarch64-linux-gnu- LD=ld.lld
 }
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out $kernel_defconfig
-rm -rf $(pwd)/out/.config && cp $(pwd)/arch/arm64/configs/$kernel_defconfig $(pwd)/out/.config
+#rm -rf $(pwd)/out/.config && cp $(pwd)/arch/arm64/configs/$kernel_defconfig $(pwd)/out/.config
 build_kernel 2>&1| tee build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image ]] ; then
     curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${my_id}
