@@ -4,10 +4,11 @@ export ARCH=arm64 && export SUBARCH=arm64 && export kernel_defconfig=${1}
 my_id="1201257517" && channel_id="-1001360920692" && token="1501859780:AAFrTzcshDwfA2x6Q0lhotZT2M-CMeiBJ1U"
 export KBUILD_BUILD_USER=fadlyas07 && export KBUILD_BUILD_HOST=greenforce-project
 build_kernel() {
-    git clone --quiet -j64 --depth=1 --single-branch https://gitlab.com/najahi/clang.git
-    export PATH="$(pwd)/clang/bin:$PATH"
-    make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out CC=clang AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy \
-    OBJDUMP=llvm-objdump STRIP=llvm-strip CROSS_COMPILE=aarch64-linux-gnu- LD=ld.lld
+    git clone --quiet -j64 --depth=1 --single-branch https://github.com/crdroidandroid/android_prebuilts_clang_host_linux-x86_clang-r416183d clang
+    git clone --quiet -j64 --depth=1 --single-branch https://github.com/greenforce-project/gcc-arm64 gcc
+    export PATH="$(pwd)/clang/bin:$(pwd)/gcc/bin:$PATH"
+    export LD_LIBRARY_PATH="$(pwd)/clang/lib:$LD_LIBRARY_PATH
+    make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out CC=clang CROSS_COMPILE=aarch64-elf-
 }
 make -j$(nproc) -l$(nproc) ARCH=arm64 O=out $kernel_defconfig
 #rm -rf $(pwd)/out/.config && cp $(pwd)/arch/arm64/configs/$kernel_defconfig $(pwd)/out/.config
