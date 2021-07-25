@@ -5,7 +5,7 @@ my_id="1201257517" && channel_id="-1001360920692" && token="1501859780:AAFrTzcsh
 export KBUILD_BUILD_USER=fadlyas07 && export KBUILD_BUILD_HOST=greenforce-project
 build_kernel() {
     git clone --quiet -j64 --depth=1 --single-branch https://github.com/ThankYouMario/proprietary_vendor_qcom_sdclang clang
-    git clone --quiet -j64 --depth=1 --single-branch https://github.com/greenforce-project/gcc-arm64 gcc
+    git clone --quiet -j64 --depth=1 --single-branch https://github.com/arter97/arm64-gcc gcc
     export PATH="$(pwd)/clang/bin:$(pwd)/gcc/bin:$PATH"
     make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out CC=clang CROSS_COMPILE=aarch64-elf-
 }
