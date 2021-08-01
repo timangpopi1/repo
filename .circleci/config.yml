@@ -6,7 +6,7 @@ jobs:
    steps:
       - run:
           command: |
-           apt-get -y update && apt-get -y upgrade && apt-get -y install clang llvm lld glibc-doc binutils-aarch64-linux-gnu gcc-aarch64-linux-gnu binutils-arm-linux-gnueabi gcc-arm-linux-gnueabi \
+           apt-get -y update && apt-get -y upgrade && apt-get -y install glibc-doc \
            bc bison ca-certificates curl flex gcc git libc6-dev libssl-dev make openssl python ssh sudo wget zip libncurses-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf
            TZ=Asia/Jakarta && sudo ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
            apt-get -y install tzdata
