@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 git clone --quiet -j64 --depth=1 --single-branch https://github.com/fadlyas07/anykernel-3
-git clone --quiet -j64 --depth=1 --single-branch https://github.com/kdrag0n/proton-clang clang
+git clone --quiet -j64 --depth=1 --single-branch https://gitlab.com/najahi/clang
 export ARCH=arm64 && export SUBARCH=arm64 && export kernel_defconfig=${1}
 my_id="1201257517" && channel_id="-1001360920692" && token="1501859780:AAFrTzcshDwfA2x6Q0lhotZT2M-CMeiBJ1U"
 export PATH="$(pwd)/clang/bin:$PATH" && export KBUILD_BUILD_USER=fadlyas07 && export KBUILD_BUILD_HOST=greenforce-project
