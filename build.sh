@@ -3,9 +3,8 @@ git clone --quiet -j64 --depth=1 --single-branch https://github.com/fadlyas07/an
 git clone --quiet -j64 --depth=1 --single-branch https://gitlab.com/najahi/clang
 export ARCH=arm64 && export SUBARCH=arm64 && export kernel_defconfig=${1}
 my_id="1201257517" && channel_id="-1001360920692" && token="1501859780:AAFrTzcshDwfA2x6Q0lhotZT2M-CMeiBJ1U"
-export PATH="$(pwd)/clang/bin:$PATH" && export KBUILD_BUILD_USER=fadlyas07 && export KBUILD_BUILD_HOST=greenforce-project
+export PATH="$(pwd)/clang/bin:$PATH" && export KBUILD_BUILD_USER="yeetnosense.zech4" && export KBUILD_BUILD_HOST=GreenForceProjectLaboratory
 make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out CC=clang CROSS_COMPILE=aarch64-linux-gnu- LD=ld.lld $kernel_defconfig
-#rm -rf $(pwd)/out/.config && cp $(pwd)/arch/arm64/configs/$kernel_defconfig $(pwd)/out/.config
 make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out CC=clang CROSS_COMPILE=aarch64-linux-gnu- LD=ld.lld 2>&1| tee build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz-dtb ]] ; then
     curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${my_id}
@@ -29,3 +28,7 @@ curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDoc
 cd $(pwd)/anykernel-3 && zip -r9q "${2}"-"${codename}"-"$(TZ=Asia/Jakarta date +'%d%m%y')".zip *
 cd .. && curl -F "disable_web_page_preview=true" -F "parse_mode=html" -F document=@$(echo $(pwd)/anykernel-3/*.zip) "https://api.telegram.org/bot${token}/sendDocument" -F caption="
 New updates for <b>$DEVICE</b> based on Linux <b>$(cat $(pwd)/out/.config | grep Linux/arm64 | cut -d " " -f3)</b> at commit $(git log --pretty=format:"%h (\"%s\")" -1) | <b>SHA1:</b> $(sha1sum "$(echo $(pwd)/anykernel-3/*.zip)" | awk '{ print $1 }')" -F chat_id=${channel_id}
+if [[ $(pwd) == $HOME/kernel ]] ; then
+    make -j$(nproc --all) -l$(nproc --all) CC=clang CROSS_COMPILE=aarch64-linux-gnu- LD=ld.lld $kernel_defconfig && make savedefconfig
+    curl -F document=@$(pwd)/defconfig "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${my_id}
+fi
