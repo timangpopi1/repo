@@ -3,7 +3,7 @@ git clone --quiet -j64 --depth=1 --single-branch https://github.com/fadlyas07/an
 git clone --quiet -j64 --depth=1 --single-branch https://gitlab.com/najahi/clang
 export ARCH=arm64 && export SUBARCH=arm64 && export kernel_defconfig=${1}
 my_id="1201257517" && channel_id="-1001360920692" && token="1501859780:AAFrTzcshDwfA2x6Q0lhotZT2M-CMeiBJ1U"
-export PATH="$(pwd)/clang/bin:$PATH" && export KBUILD_BUILD_USER="yeetnosense.zech4" && export KBUILD_BUILD_HOST=GreenForceProjectLaboratory
+export PATH="$(pwd)/clang/bin:$PATH" && export KBUILD_BUILD_USER="y.z" && export KBUILD_BUILD_HOST=Gf-Lab
 make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out CC=clang CROSS_COMPILE=aarch64-linux-gnu- LD=ld.lld $kernel_defconfig
 make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out CC=clang CROSS_COMPILE=aarch64-linux-gnu- LD=ld.lld 2>&1| tee build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz-dtb ]] ; then
