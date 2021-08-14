@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
    docker:
-      - image: mhmmdfdlyas/dockerfile:groovy
+      - image: panchajanya1999/archlinux:latest
    steps:
       - run:
           command: |
