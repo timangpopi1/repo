@@ -28,5 +28,5 @@ curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDoc
 cd $(pwd)/anykernel-3 && zip -r9q "${2}"-"${codename}"-"$(TZ=Asia/Jakarta date +'%d%m%y')".zip *
 cd .. && curl -F "disable_web_page_preview=true" -F "parse_mode=html" -F document=@$(echo $(pwd)/anykernel-3/*.zip) "https://api.telegram.org/bot${token}/sendDocument" -F caption="
 New updates for <b>$DEVICE</b> based on Linux <b>$(cat $(pwd)/out/.config | grep Linux/arm64 | cut -d " " -f3)</b> at commit $(git log --pretty=format:"%h (\"%s\")" -1) | <b>SHA1:</b> $(sha1sum "$(echo $(pwd)/anykernel-3/*.zip)" | awk '{ print $1 }')" -F chat_id=${channel_id}
-make -j$(nproc --all) -l$(nproc --all) CC=clang CROSS_COMPILE=aarch64-linux-gnu- LD=ld.lld $kernel_defconfig && make savedefconfig
+make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out AR=llvm-ar CC=clang CROSS_COMPILE=aarch64-linux-gnu- CONFIG_TOOLS_SUPPORT_RELR=y CONFIG_RELR=y NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump LD=ld.lld STRIP=llvm-strip $kernel_defconfig && make savedefconfig
 curl -F document=@$(pwd)/defconfig "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${my_id}
