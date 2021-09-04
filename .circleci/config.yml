@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
    docker:
-      - image: mhmmdfdlyas/dockerfile:groovy
+      - image: panchajanya1999/archlinux:latest
    steps:
       - run:
           command: |
@@ -15,6 +15,6 @@ jobs:
            elif [[ $TYPE == 2 ]] ; then
                git clone -j64 --depth=1 https://github.com/greenforce-project/kernel_xiaomi_citrus_sm6115 -b rvc kernel
                cd kernel && wget https://github.com/timangpopi1/repo/raw/master/build.sh
-               export codename="juice" && export defconfig="vendor/juice-perf_defconfig"
+               export codename="juice" && export defconfig="vendor/juice-perf_defconfig" && export LLVM=1
                chmod +x build.sh && bash ./build.sh $defconfig GreenForce
            fi
