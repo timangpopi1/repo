@@ -20,7 +20,7 @@ progress(){
             if [ "${NUMBER}" -le  "99" ]; then
                 if [ "${NUMBER}" != "${NUMBER_OLD}" ] && [ "$NUMBER" != "" ] && ! cat $BUILDLOG | tail  -n 1 | grep "glob" > /dev/null && ! cat $BUILDLOG | tail  -n 1 | grep "including" > /dev/null && ! cat $BUILDLOG | tail  -n 1 | grep "soong" > /dev/null && ! cat $BUILDLOG | tail  -n 1 | grep "finishing" > /dev/null; then
                 echo -e "BOTLOG: Percentage changed to ${NUMBER}%"
-                    curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${channel_id} -d text= "🛠️ Building... ${NUMBER}%" > /dev/null
+                    curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${channel_id} -d text="🛠️ Building... ${NUMBER}%" > /dev/null
                 fi
             NUMBER_OLD=${NUMBER}
             fi
