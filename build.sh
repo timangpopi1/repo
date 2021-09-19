@@ -18,7 +18,7 @@ progress(){
         # Report percentage to the $CHAT_ID
         if [ "${NUMBER}" != "" ]; then
             if [ "${NUMBER}" -le  "99" ]; then
-                if [ "${NUMBER}" != "${NUMBER_OLD}" ] && [ "$NUMBER" != "" ] && ! cat $BUILDLOG | tail  -n 1 | grep "glob" > /dev/null && ! cat $BUILDLOG | tail  -n 1 | grep "including" > /dev/null && ! cat $BUILDLOG | tail  -n 1 | grep "soong" > /dev/null && ! cat $BUILDLOG | tail  -n 1 | grep "finishing" > /dev/null; then
+                if [ "${NUMBER}" != "${NUMBER_OLD}" ] && [ "$NUMBER" != "" ] && ! cat build.log | tail  -n 1 | grep "glob" > /dev/null && ! cat build.log | tail  -n 1 | grep "including" > /dev/null && ! cat build.log | tail  -n 1 | grep "soong" > /dev/null && ! cat build.log | tail  -n 1 | grep "finishing" > /dev/null; then
                 echo -e "BOTLOG: Percentage changed to ${NUMBER}%"
                     curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${channel_id} -d text="🛠️ Building... ${NUMBER}%" > /dev/null
                 fi
@@ -34,12 +34,12 @@ progress(){
     done
     return 0
 }
-make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out CC=clang AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump STRIP=llvm-strip LD=ld.lld CROSS_COMPILE=aarch64-linux-gnu- $kernel_defconfig
+make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out CC=clang AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump STRIP=llvm-strip CROSS_COMPILE=aarch64-linux-gnu- $kernel_defconfig
 mkfifo reading
 tee "build.log" < reading &
 sleep 2
 progress &
-make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out CC=clang AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump STRIP=llvm-strip LD=ld.lld CROSS_COMPILE=aarch64-linux-gnu- > reading
+make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out CC=clang AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump STRIP=llvm-strip CROSS_COMPILE=aarch64-linux-gnu- > reading
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz-dtb ]] ; then
     curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${my_id}
     curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="Build failed! at branch $(git rev-parse --abbrev-ref HEAD)"
