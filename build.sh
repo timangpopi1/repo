@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 git clone --quiet -j64 --depth=1 --single-branch https://github.com/fadlyas07/anykernel-3
-git clone --quiet -j64 --depth=1 --single-branch https://gitlab.com/fadlyas07/clang-llvm clang
 export ARCH=arm64 && export SUBARCH=arm64 && export kernel_defconfig=${1}
 my_id="1201257517" && channel_id="-1001360920692" && token="1501859780:AAFrTzcshDwfA2x6Q0lhotZT2M-CMeiBJ1U"
-export PATH="$(pwd)/clang/bin:$PATH" && export KBUILD_BUILD_USER="y.z" && export KBUILD_BUILD_HOST=Gf-Lab
+export PATH && export KBUILD_BUILD_USER="y.z" && export KBUILD_BUILD_HOST="greenforce.broken.lab"
 progress(){
- 
+
     echo "BOTLOG: Build tracker process is running..."
     sleep 10;
     while [ 1 ]; do
