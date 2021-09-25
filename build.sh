@@ -1,44 +1,12 @@
 #!/usr/bin/env bash
+git clone --quiet -j64 --depth=1 --single-branch https://github.com/greenforce-project/gcc-arm64 gcc
+git clone --quiet -j64 --depth=1 --single-branch https://github.com/greenforce-project/gcc-arm32
 git clone --quiet -j64 --depth=1 --single-branch https://github.com/fadlyas07/anykernel-3
 export ARCH=arm64 && export SUBARCH=arm64 && export kernel_defconfig=${1}
 my_id="1201257517" && channel_id="-1001360920692" && token="1501859780:AAFrTzcshDwfA2x6Q0lhotZT2M-CMeiBJ1U"
-export PATH && export KBUILD_BUILD_USER="y.z" && export KBUILD_BUILD_HOST="greenforce.broken.lab"
-progress(){
-
-    echo "BOTLOG: Build tracker process is running..."
-    sleep 10;
-    while [ 1 ]; do
-        if [[ ${retVal} -ne 0 ]]; then
-            exit ${retVal}
-        fi
-        # Get latest percentage
-        PERCENTAGE=$(cat $BUILDLOG | tail -n 1 | awk '{ print $2 }')
-        NUMBER=$(echo ${PERCENTAGE} | sed 's/[^0-9]*//g')
-        # Report percentage to the $CHAT_ID
-        if [ "${NUMBER}" != "" ]; then
-            if [ "${NUMBER}" -le  "99" ]; then
-                if [ "${NUMBER}" != "${NUMBER_OLD}" ] && [ "$NUMBER" != "" ] && ! cat build.log | tail  -n 1 | grep "glob" > /dev/null && ! cat build.log | tail  -n 1 | grep "including" > /dev/null && ! cat build.log | tail  -n 1 | grep "soong" > /dev/null && ! cat build.log | tail  -n 1 | grep "finishing" > /dev/null; then
-                echo -e "BOTLOG: Percentage changed to ${NUMBER}%"
-                    curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${channel_id} -d text="🛠️ Building... ${NUMBER}%" > /dev/null
-                fi
-            NUMBER_OLD=${NUMBER}
-            fi
-            if [ "$NUMBER" -eq "99" ] && [ "$NUMBER" != "" ] && ! cat $BUILDLOG | tail  -n 1 | grep "glob" > /dev/null && ! cat $BUILDLOG | tail  -n 1 | grep "including" > /dev/null && ! cat $BUILDLOG | tail  -n 1 | grep "soong" > /dev/null && ! cat $BUILDLOG | tail -n 1 | grep "finishing" > /dev/null; then
-                echo "BOTLOG: Build tracker process ended"
-                break
-            fi
-        fi
- 
-        sleep 10
-    done
-    return 0
-}
-make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out LD=ld.lld CC=clang AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump STRIP=llvm-strip CROSS_COMPILE=aarch64-linux-gnu- $kernel_defconfig
-mkfifo reading
-tee "build.log" < reading &
-sleep 2
-progress &
-make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out LD=ld.lld CC=clang AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump STRIP=llvm-strip CROSS_COMPILE=aarch64-linux-gnu- > reading
+export PATH="$(pwd)/gcc/bin:$(pwd)/gcc32/bin:$PATH" && export KBUILD_BUILD_USER="y.z" && export KBUILD_BUILD_HOST="greenforce.broken.lab"
+make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out CROSS_COMPILE=aarch64-elf- CROSS_COMPILE_ARM32=arm-eabi- $kernel_defconfig
+make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out CROSS_COMPILE=aarch64-elf- CROSS_COMPILE_ARM32=arm-eabi- 2>&1| tee build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz-dtb ]] ; then
     curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${my_id}
     curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="Build failed! at branch $(git rev-parse --abbrev-ref HEAD)"
