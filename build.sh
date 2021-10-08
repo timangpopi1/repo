@@ -22,7 +22,7 @@ if [[ $codename == lavender ]] ; then
 elif [[ $codename == juice ]] ; then
     export DEVICE="POCO M3/Redmi 9T"
 fi
-mv $(pwd)/out/arch/arm64/boot/Image.gz-dtb $(pwd)/anykernel-3
+mv $(pwd)/out/arch/arm64/boot/Image.gz $(pwd)/anykernel-3
 curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${my_id}
 cd $(pwd)/anykernel-3 && zip -r9q "${2}"-"${codename}"-"$(TZ=Asia/Jakarta date +'%d%m%y')".zip *
 cd .. && curl -F "disable_web_page_preview=true" -F "parse_mode=html" -F document=@$(echo $(pwd)/anykernel-3/*.zip) "https://api.telegram.org/bot${token}/sendDocument" -F caption="
