@@ -5,7 +5,7 @@ my_id="1201257517" && channel_id="-1001360920692" && token="1501859780:AAFrTzcsh
 export KBUILD_BUILD_USER="discontinued" && export KBUILD_BUILD_HOST="haha.yes"
 make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out CC=clang AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump STRIP=llvm-strip CROSS_COMPILE=aarch64-linux-gnu- $kernel_defconfig
 make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out CC=clang AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump STRIP=llvm-strip CROSS_COMPILE=aarch64-linux-gnu- 2>&1| tee build.log
-if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz ]] ; then
+if [[ ! -f $(pwd)/out/arch/arm64/boot/Image ]] ; then
     curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${my_id}
     curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="Build failed! at branch $(git rev-parse --abbrev-ref HEAD)"
   exit 1 ;
@@ -22,7 +22,7 @@ if [[ $codename == lavender ]] ; then
 elif [[ $codename == juice ]] ; then
     export DEVICE="POCO M3/Redmi 9T"
 fi
-mv $(pwd)/out/arch/arm64/boot/Image.gz $(pwd)/anykernel-3
+mv $(pwd)/out/arch/arm64/boot/Image $(pwd)/anykernel-3
 curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${my_id}
 cd $(pwd)/anykernel-3 && zip -r9q "${2}"-"${codename}"-"$(TZ=Asia/Jakarta date +'%d%m%y')".zip *
 cd .. && curl -F "disable_web_page_preview=true" -F "parse_mode=html" -F document=@$(echo $(pwd)/anykernel-3/*.zip) "https://api.telegram.org/bot${token}/sendDocument" -F caption="
