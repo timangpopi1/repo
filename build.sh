@@ -5,7 +5,7 @@ my_id="1201257517" && channel_id="-1001360920692" && token="1501859780:AAFrTzcsh
 export KBUILD_BUILD_USER="discontinued" && export KBUILD_BUILD_HOST="haha.yes"
 make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out CC=clang AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump STRIP=llvm-strip CROSS_COMPILE=aarch64-linux-gnu- $kernel_defconfig
 make -j$(nproc --all) -l$(nproc --all) ARCH=arm64 O=out CC=clang AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump STRIP=llvm-strip CROSS_COMPILE=aarch64-linux-gnu- 2>&1| tee build.log
-if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz-dtb ]] ; then
+if [[ ! -f $(pwd)/out/arch/arm64/boot/Image.gz ]] ; then
     curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${my_id}
     curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="Build failed! at branch $(git rev-parse --abbrev-ref HEAD)"
   exit 1 ;
