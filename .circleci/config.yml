@@ -8,7 +8,7 @@ jobs:
           command: |
            TYPE=2
            ubuntu_codename=groovy
-           apt-get install -y gnupg gnupg2 gnupg1
+           apt-get install -y gpgv
            wget https://apt.llvm.org/llvm-snapshot.gpg.key
            apt-key add llvm-snapshot.gpg.key
            add-apt-repository "deb http://apt.llvm.org/$ubuntu_codename/ llvm-toolchain-$ubuntu_codename main"
