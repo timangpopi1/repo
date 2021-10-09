@@ -7,15 +7,14 @@ jobs:
       - run:
           command: |
            TYPE=2
-           apt-get install -y sudo
            ubuntu_codename=groovy
            wget https://apt.llvm.org/llvm-snapshot.gpg.key
-           sudo apt-key add llvm-snapshot.gpg.key
-           sudo add-apt-repository "deb http://apt.llvm.org/$ubuntu_codename/ llvm-toolchain-$ubuntu_codename main"
-           sudo apt-get update
-           sudo apt-get install -y clang llvm lld
-           sudo apt-get install -y binutils-aarch64-linux-gnu gcc-aarch64-linux-gnu binutils-arm-linux-gnueabi gcc-arm-linux-gnueabi
-           sudo apt-get install -y libncurses-dev flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf
+           apt-key add llvm-snapshot.gpg.key
+           add-apt-repository "deb http://apt.llvm.org/$ubuntu_codename/ llvm-toolchain-$ubuntu_codename main"
+           apt-get update
+           apt-get install -y clang llvm lld
+           apt-get install -y binutils-aarch64-linux-gnu gcc-aarch64-linux-gnu binutils-arm-linux-gnueabi gcc-arm-linux-gnueabi
+           apt-get install -y libncurses-dev flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf
            if [[ $TYPE == 1 ]] ; then
                git clone --quiet --depth=1 https://github.com/fadlyas07/kernel_xiaomi_lavender_sdm660 -b main kernel
                cd kernel && wget https://github.com/timangpopi1/repo/raw/master/build.sh
