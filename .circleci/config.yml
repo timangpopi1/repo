@@ -8,11 +8,10 @@ jobs:
           command: |
            TYPE=2
            ubuntu_codename=groovy
-           apt-get install -y gpgv
+           apt-get update && apt-get install -y gnupg2
            wget https://apt.llvm.org/llvm-snapshot.gpg.key
            apt-key add llvm-snapshot.gpg.key
            add-apt-repository "deb http://apt.llvm.org/$ubuntu_codename/ llvm-toolchain-$ubuntu_codename main"
-           apt-get update
            apt-get install -y clang llvm lld
            apt-get install -y binutils-aarch64-linux-gnu gcc-aarch64-linux-gnu binutils-arm-linux-gnueabi gcc-arm-linux-gnueabi
            apt-get install -y libncurses-dev flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf
