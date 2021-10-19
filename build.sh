@@ -3,7 +3,7 @@ clang --version || echo "clang not found lmao"
 git clone --quiet -j64 --depth=1 --single-branch https://github.com/fadlyas07/anykernel-3
 export ARCH=arm64 && export SUBARCH=arm64 && export kernel_defconfig=${1}
 my_id="1201257517" && channel_id="-1001360920692" && token="1501859780:AAFrTzcshDwfA2x6Q0lhotZT2M-CMeiBJ1U"
-export KBUILD_BUILD_USER="noone" && export KBUILD_BUILD_HOST="notreally"
+export KBUILD_BUILD_USER="ubuntu" && export KBUILD_BUILD_HOST="127.0.0.1"
 BUILD_CROSS_COMPILE=aarch64-linux-gnu-
 BUILD_CROSS_COMPILE_COMPAT=arm-linux-gnueabi-
 CLANG_TRIPLE=aarch64-linux-gnu-
