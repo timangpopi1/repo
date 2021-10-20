@@ -1,16 +1,15 @@
 #!/usr/bin/env bash
-clang --version || echo "clang not found lmao"
+git clone --quiet -j64 --depth=1 --single-branch https://github.com/greenforce-project/aosp_clang clang
+git clone --quiet -j64 --depth=1 --single-branch https://github.com/greenforce-project/gcc-arm64 gcc
+git clone --quiet -j64 --depth=1 --single-branch https://github.com/greenforce-project/gcc-arm32 gcc32
 git clone --quiet -j64 --depth=1 --single-branch https://github.com/fadlyas07/anykernel-3
 export ARCH=arm64 && export SUBARCH=arm64 && export kernel_defconfig=${1}
 my_id="1201257517" && channel_id="-1001360920692" && token="1501859780:AAFrTzcshDwfA2x6Q0lhotZT2M-CMeiBJ1U"
+export PATH="$(pwd)/clang/bin:$(pwd)/gcc/bin:$(pwd)/gcc32/bin:${PATH}"
 export KBUILD_BUILD_USER="ubuntu" && export KBUILD_BUILD_HOST="127.0.0.1"
-BUILD_CROSS_COMPILE=aarch64-linux-gnu-
-BUILD_CROSS_COMPILE_COMPAT=arm-linux-gnueabi-
-CLANG_TRIPLE=aarch64-linux-gnu-
-KERNEL_MAKE_ENV="ARCH=arm64 CROSS_COMPILE=$BUILD_CROSS_COMPILE CROSS_COMPILE_COMPAT=$BUILD_CROSS_COMPILE_COMPAT LLVM=1 CLANG_TRIPLE=$CLANG_TRIPLE"
-KERNEL_MAKE_ENV="$KERNEL_MAKE_ENV VARIANT_DEFCONFIG=$kernel_defconfig"
-make -j$(nproc --all) -C $(pwd) O=$(pwd)/out $KERNEL_MAKE_ENV $kernel_defconfig || exit 1
-make -j$(nproc --all) -C $(pwd) O=$(pwd)/out $KERNEL_MAKE_ENV 2>&1| tee build.log
+BUILD_ENV="ARCH=arm64 CROSS_COMPILE=aarch64-elf- CROSS_COMPILE_COMPAT=arm-eabi- CLANG_TRIPLE=aarch64-linux-gnu-"
+make -j$(nproc --all) -C $(pwd) O=$(pwd)/out $BUILD_ENV $kernel_defconfig || exit 1
+make -j$(nproc --all) -C $(pwd) O=$(pwd)/out $BUILD_ENV 2>&1| tee build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image ]] ; then
     curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${my_id}
     curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="Build failed! at branch $(git rev-parse --abbrev-ref HEAD)"
