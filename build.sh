@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
-git clone --quiet -j64 --depth=1 -b old https://github.com/timangpopi1/arm64-gcc-linaro-4.9-2016 gcc64
+git clone --quiet -j64 --depth=1 --single-branch https://github.com/timangpopi1/arm64-gcc
 git clone --quiet -j64 --depth=1 --single-branch https://github.com/fadlyas07/anykernel-3
 export ARCH=arm64 && export SUBARCH=arm64 && export kernel_defconfig=${1}
 my_id="1201257517" && channel_id="-1001360920692" && token="1501859780:AAFrTzcshDwfA2x6Q0lhotZT2M-CMeiBJ1U"
-export PATH="$(pwd)/gcc64/bin:$PATH"
-export KBUILD_BUILD_USER="" && export KBUILD_BUILD_HOST=""
-BUILD_ENV="ARCH=arm64 CROSS_COMPILE=aarch64-linux-android-"
+export PATH="$(pwd)/arm64-gcc/bin:$PATH" export KBUILD_BUILD_USER="" && export KBUILD_BUILD_HOST=""
+BUILD_ENV="ARCH=arm64 CROSS_COMPILE=aarch64-elf-"
 make -j$(nproc --all) -C $(pwd) O=$(pwd)/out $BUILD_ENV $kernel_defconfig || exit 1
 make -j$(nproc --all) -C $(pwd) O=$(pwd)/out $BUILD_ENV 2>&1| tee build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image ]] ; then
