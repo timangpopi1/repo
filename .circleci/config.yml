@@ -6,20 +6,7 @@ jobs:
    steps:
       - run:
           command: |
-           TYPE=2
-#           ubuntu_codename=groovy
-#           apt-get update
-#           apt-get install -y clang llvm lld
-#           apt-get install -y binutils-aarch64-linux-gnu gcc-aarch64-linux-gnu binutils-arm-linux-gnueabi gcc-arm-linux-gnueabi
-#           apt-get install -y libncurses-dev flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf
-           if [[ $TYPE == 1 ]] ; then
-               git clone --quiet --depth=1 https://github.com/fadlyas07/kernel_xiaomi_lavender_sdm660 -b main kernel
-               cd kernel && wget https://github.com/timangpopi1/repo/raw/master/build.sh
-               export codename="lavender" && export defconfig="lavender-perf_defconfig"
-               chmod +x build.sh && bash ./build.sh $defconfig AoSpM
-           elif [[ $TYPE == 2 ]] ; then
-               git clone --depth=1 https://github.com/greenforce-project/kernel_xiaomi_citrus_sm6115 -b rvc-inline kernel
-               cd kernel && wget https://github.com/timangpopi1/repo/raw/master/build.sh
-               export codename="juice" && export defconfig="vendor/juice-perf_defconfig"
-               chmod +x build.sh && bash ./build.sh $defconfig GreenForce
-           fi
+           git clone -q --depth=1 https://github.com/greenforce-project/kernel_xiaomi_citrus_sm6115 -b rvc-inline kernel
+           cd kernel && wget https://github.com/timangpopi1/repo/raw/master/build.sh
+           export codename="juice" && export defconfig="vendor/juice-perf_defconfig"
+           chmod +x build.sh && bash ./build.sh $defconfig GreenForce
