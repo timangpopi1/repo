@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 git clone --quiet -j64 --depth=1 --single-branch https://github.com/fadlyas07/anykernel-3
-git clone --quiet -j64 --single-branch https://github.com/greenforce-project/gcc-arm64 && cd gcc-arm64 && git reset --hard d27fab3a76d6b1d9f1e75f1bc44e2bdc7c9674c6 && cd ..
+git clone --quiet -j64 --single-branch https://github.com/greenforce-project/gcc-arm64
 export ARCH=arm64 && export SUBARCH=arm64 && export kernel_defconfig=${1} && thread=$(nproc --all)
 my_id="1201257517" && channel_id="-1001360920692" && token="1501859780:AAFrTzcshDwfA2x6Q0lhotZT2M-CMeiBJ1U"
 export KBUILD_BUILD_USER="" && export KBUILD_BUILD_HOST="" && export PATH="$(pwd)/gcc-arm64/bin:$PATH"
