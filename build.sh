@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
 git clone --quiet -j64 --depth=1 --single-branch https://github.com/fadlyas07/anykernel-3
-git clone --quiet -j64 --single-branch https://github.com/greenforce-project/gcc-arm64
 export ARCH=arm64 && export SUBARCH=arm64 && export kernel_defconfig=${1} && thread=$(nproc --all)
 my_id="1201257517" && channel_id="-1001360920692" && token="1501859780:AAFrTzcshDwfA2x6Q0lhotZT2M-CMeiBJ1U"
-export KBUILD_BUILD_USER="" && export KBUILD_BUILD_HOST="" && export PATH="$(pwd)/gcc-arm64/bin:$PATH"
-BUILD_ENV="ARCH=arm64 CROSS_COMPILE=aarch64-elf-"
+export KBUILD_BUILD_USER="Y.Z" && export KBUILD_BUILD_HOST="GF.lab"
+CLANG_TRIPLE=aarch64-linux-gnu-
+BUILD_CROSS_COMPILE=aarch64-linux-gnu-
+BUILD_CROSS_COMPILE_COMPAT=arm-linux-gnueabi-
+KERNEL_MAKE_ENV="ARCH=arm64 CROSS_COMPILE=$BUILD_CROSS_COMPILE CROSS_COMPILE_COMPAT=$BUILD_CROSS_COMPILE_COMPAT LLVM=1 CLANG_TRIPLE=$CLANG_TRIPLE"
+KERNEL_MAKE_ENV="$KERNEL_MAKE_ENV VARIANT_DEFCONFIG=$kernel_defconfig"
 make -j${thread} -l${thread} -C $(pwd) O=$(pwd)/out $BUILD_ENV $kernel_defconfig || exit 1;
 make -j${thread} -l${thread} -C $(pwd) O=$(pwd)/out $BUILD_ENV 2>&1| tee build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image ]] ; then
