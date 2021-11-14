@@ -8,8 +8,8 @@ BUILD_CROSS_COMPILE=aarch64-linux-gnu-
 BUILD_CROSS_COMPILE_COMPAT=arm-linux-gnueabi-
 KERNEL_MAKE_ENV="ARCH=arm64 CROSS_COMPILE=$BUILD_CROSS_COMPILE CROSS_COMPILE_COMPAT=$BUILD_CROSS_COMPILE_COMPAT LLVM=1 CLANG_TRIPLE=$CLANG_TRIPLE"
 KERNEL_MAKE_ENV="$KERNEL_MAKE_ENV VARIANT_DEFCONFIG=$kernel_defconfig"
-make -j${thread} -l${thread} -C $(pwd) O=$(pwd)/out $BUILD_ENV $kernel_defconfig || exit 1;
-make -j${thread} -l${thread} -C $(pwd) O=$(pwd)/out $BUILD_ENV 2>&1| tee build.log
+make -j${thread} -l${thread} -C $(pwd) O=$(pwd)/out $KERNEL_MAKE_ENV $kernel_defconfig || exit 1;
+make -j${thread} -l${thread} -C $(pwd) O=$(pwd)/out $KERNEL_MAKE_ENV 2>&1| tee build.log
 if [[ ! -f $(pwd)/out/arch/arm64/boot/Image ]] ; then
     curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot${token}/sendDocument" -F chat_id=${my_id}
     curl -s -X POST "https://api.telegram.org/bot${token}/sendMessage" -d chat_id=${my_id} -d text="Build failed! at branch $(git rev-parse --abbrev-ref HEAD)"
