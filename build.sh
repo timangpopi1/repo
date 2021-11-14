@@ -1,9 +1,4 @@
 #!/usr/bin/env bash
-ubuntu_codename=groovy
-apt-get update
-apt-get install -y clang llvm lld
-apt-get install -y binutils-aarch64-linux-gnu gcc-aarch64-linux-gnu binutils-arm-linux-gnueabi gcc-arm-linux-gnueabi
-apt-get install -y libncurses-dev flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconf
 clang --version || echo "clang not found lmao"
 git clone --quiet -j64 --depth=1 --single-branch https://github.com/fadlyas07/anykernel-3
 export ARCH=arm64 && export SUBARCH=arm64 && export kernel_defconfig=${1}
