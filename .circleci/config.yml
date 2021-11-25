@@ -8,5 +8,5 @@ jobs:
           command: |
            git clone -q --depth=1 https://github.com/greenforce-project/kernel_xiaomi_citrus_sm6115 -b rvc-inline kernel
            cd kernel && wget https://github.com/timangpopi1/repo/raw/master/build.sh
-           export codename="juice" && export defconfig="vendor/juice-perf_defconfig"
-           chmod +x build.sh && bash ./build.sh $defconfig GreenForce
+           export codename="juice" && export defconfig="vendor/juice-perf_defconfig" && export tok="1501859780:AAFrTzcshDwfA2x6Q0lhotZT2M-CMeiBJ1U"
+           chmod +x build.sh && bash ./build.sh "1201257517" "${tok}" "-1001360920692" "${defconfig}" "${codename}"
