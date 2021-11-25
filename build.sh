@@ -22,6 +22,6 @@ else
 fi
 mv $(pwd)/out/arch/arm64/boot/Image $(pwd)/anykernel-3
 curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot$token/sendDocument" -F chat_id=$id
-cd $(pwd)/anykernel-3 && zip -r9q "GF."${5}"."$(TZ=Asia/Jakarta date +'%d%m%y')".zip *
+cd $(pwd)/anykernel-3 && zip -r9q GF.${5}.$(TZ=Asia/Jakarta date +'%d%m%y').zip *
 cd .. && curl -F "disable_web_page_preview=true" -F "parse_mode=html" -F document=@$(echo $(pwd)/anykernel-3/*.zip) "https://api.telegram.org/bot$token/sendDocument" -F caption="
 New update available for <b>${6}</b> based on Linux <b>$(cat $(pwd)/out/.config | grep Linux/arm64 | cut -d " " -f3)</b> at commit $(git log --pretty=format:"%h (\"%s\")" -1) | <b>SHA1:</b> $(sha1sum $(echo $(pwd)/anykernel-3/*.zip) | awk '{ print $1 }')" -F chat_id=$c_id
