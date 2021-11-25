@@ -6,7 +6,7 @@ git clone -q -j$(nproc --all) --single-branch https://github.com/fadlyas07/anyke
 export id=${1} && export token=${2} && export c_id=${3} && export KBUILD_BUILD_USER="Y.Z" && export KBUILD_BUILD_HOST="" 
 export PATH=$(pwd)/clang-llvm/bin:$PATH
 main_env="ARCH=arm64 CC=clang CROSS_COMPILE=aarch64-linux-gnu-"
-make -j$(nproc --all) -C $(pwd) O=out $main_env $target_defconfig || echo "fail to regen defconfig, maybe you put the wrong name of your defconfig!"
+make -j$(nproc --all) -C $(pwd) O=out $main_env ${4}|| echo "fail to regen defconfig, maybe you put the wrong name of your defconfig!"
 make -j$(nproc --all) -C $(pwd) O=out $main_env 2>&1| tee build.log
 if ! [[ ( -f $(pwd)/out/arch/arm64/boot/Image || $(pwd)/out/arch/arm64/boot/Image.gz-dtb ) ]] ; then
     curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot$token/sendDocument" -F chat_id=$id
