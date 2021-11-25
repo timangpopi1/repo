@@ -1,13 +1,10 @@
 #!/usr/bin/env bash
 # Copyright (C) 2021 Muhammad Fadlyas (fadlyas07)
 # SPDX-License-Identifier: GPL-3.0-or-later
-apt-get update && \
-apt-get install -y && \
-clang llvm lld binutils-aarch64-linux-gnu gcc-aarch64-linux-gnu binutils-arm-linux-gnueabi gcc-arm-linux-gnueabi \
-libncurses-dev flex bison openssl libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev autoconfa &>/dev/null
+git clone -q -j$(nproc --all) --single-branch https://github.com/greenforce-project/clang-llvm --depth=1
 git clone -q -j$(nproc --all) --single-branch https://github.com/fadlyas07/anykernel-3 --depth=1
-export id=${1} && export token=${2} && export c_id=${3} && export KBUILD_BUILD_USER="Y.Z" && export KBUILD_BUILD_HOST=""
-BUILD_ENV="ARCH=arm64 CC=clang CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_COMPAT=arm-linux-gnueabi- CLANG_TRIPLE=aarch64-linux-gnu-"
+export id=${1} && export token=${2} && export c_id=${3} && export KBUILD_BUILD_USER="Y.Z" && export KBUILD_BUILD_HOST="" && PATH=$(pwd)/clang-llvm/bin:$PATH 
+BUILD_ENV="CC=clang ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_COMPAT=arm-linux-gnueabi-"
 BUILD_ENV="$BUILD_ENV target_defconfig=${4}"
 make -j$(nproc --all) -C $(pwd) O=out $BUILD_ENV $target_defconfig || exit 1
 make -j$(nproc --all) -C $(pwd) O=out $BUILD_ENV 2>&1| tee build.log
