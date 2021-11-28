@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 # Copyright (C) 2021 Muhammad Fadlyas (fadlyas07)
 # SPDX-License-Identifier: GPL-3.0-or-later
-git clone -q -j$(nproc --all) --single-branch https://github.com/arter97/arm64-gcc --depth=1
+git clone -q -j$(nproc --all) --single-branch https://github.com/crdroidandroid/android_prebuilts_clang_host_linux-x86_clang-6032204 clang --depth=1
+git clone -q -j$(nproc --all) --single-branch https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9 gcc --depth=1
 git clone -q -j$(nproc --all) --single-branch https://github.com/fadlyas07/anykernel-3 --depth=1
-export id=${1} && export token=${2} && export c_id=${3} && export KBUILD_BUILD_USER="Y.Z" && export KBUILD_BUILD_HOST="" 
-export PATH=$(pwd)/arm64-gcc/bin:$PATH
-main_env="ARCH=arm64 CROSS_COMPILE=aarch64-elf-"
+export id=${1} && export token=${2} && export c_id=${3} && export KBUILD_BUILD_USER="Y.Z" && export KBUILD_BUILD_HOST="$(TZ=Asia/Jakarta date +'%H%M.%d%m%y')"
+export PATH="$(pwd)/clang/bin:$(pwd)/gcc/bin:$PATH" && export export LD_LIBRARY_PATH="$(pwd)/clang/lib:$LD_LIBRARY_PATH"
+main_env="ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-android-"
 make -j$(nproc --all) -l$(nproc --all) -C $(pwd) O=out $main_env ${4}|| echo "fail to regen defconfig, maybe you put the wrong name of your defconfig!"
 make -j$(nproc --all) -l$(nproc --all) -C $(pwd) O=out $main_env 2>&1| tee build.log
 if ! [[ -f $(pwd)/out/arch/arm64/boot/Image ]] ; then
