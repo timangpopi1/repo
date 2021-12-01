@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Copyright (C) 2021 Muhammad Fadlyas (fadlyas07)
 # SPDX-License-Identifier: GPL-3.0-or-later
-git clone -q -j$(nproc --all) --single-branch https://github.com/crdroidandroid/android_prebuilts_clang_host_linux-x86_clang-6032204 clang --depth=1
+git clone -q -j$(nproc --all) --single-branch https://github.com/greenforce-project/aosp_clang clang --depth=1
 git clone -q -j$(nproc --all) --single-branch https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9 gcc --depth=1
 git clone -q -j$(nproc --all) --single-branch https://github.com/fadlyas07/anykernel-3 --depth=1
 export id=${1} && export token=${2} && export c_id=${3} && export KBUILD_BUILD_USER="Y.Z" && export KBUILD_BUILD_HOST="$(TZ=Asia/Jakarta date +'%H%M.%d%m%y')"
