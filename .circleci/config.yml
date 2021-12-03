@@ -6,7 +6,7 @@ jobs:
    steps:
       - run:
           command: |
-           pacman -Syu --noconfirm tzdata
+           pacman -Syu --noconfirm tzdata ncurses5-compat-libs
            ln -snf /usr/share/zoneinfo/Etc/GMT-7 /etc/localtime && echo Etc/GMT-7 > /etc/timezone
            git clone -j$(nproc --all) https://github.com/greenforce-project/kernel_xiaomi_citrus_sm6115 -b rvc-inline kernel --depth=1
            cd kernel && wget https://github.com/timangpopi1/repo/raw/master/build.sh
