@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # Copyright (C) 2021 Muhammad Fadlyas (fadlyas07)
 # SPDX-License-Identifier: GPL-3.0-or-later
-git clone -j$(nproc --all) -b ruby-10 https://github.com/ThankYouMario/proprietary_vendor_qcom_sdclang clang --depth=1
+git clone -j$(nproc --all) --single-branch https://github.com/crdroidandroid/android_prebuilts_clang_host_linux-x86_clang-r416183b1 clang --depth=1
 git clone -j$(nproc --all) --single-branch https://github.com/arter97/arm64-gcc gcc --depth=1
 git clone -j$(nproc --all) --single-branch https://github.com/fadlyas07/anykernel-3 --depth=1
 export id=${1} && export token=${2} && export c_id=${3} && export KBUILD_BUILD_USER="yeetnozech4" && export KBUILD_BUILD_HOST="greenforce.project"
 export PATH="$(pwd)/clang/bin:$(pwd)/gcc/bin:$PATH" && export export LD_LIBRARY_PATH="$(pwd)/clang/lib:$LD_LIBRARY_PATH"
-main_env="ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-elf-"
+main_env="ARCH=arm64 CC=clang CROSS_COMPILE=aarch64-elf-"
 make -j$(nproc --all) -l$(nproc --all) -C $(pwd) O=out $main_env ${4}|| echo "fail to regen defconfig, maybe you put the wrong name of your defconfig!"
 make -j$(nproc --all) -l$(nproc --all) -C $(pwd) O=out $main_env 2>&1| tee build.log
 if ! [[ -f $(pwd)/out/arch/arm64/boot/Image ]] ; then
