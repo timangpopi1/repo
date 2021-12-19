@@ -8,7 +8,7 @@ jobs:
           command: |
            pacman -Syu --noconfirm tzdata
            ln -snf /usr/share/zoneinfo/Etc/GMT-7 /etc/localtime && echo Etc/GMT-7 > /etc/timezone
-           git clone -j$(nproc --all) https://github.com/greenforce-project/kernel_xiaomi_citrus_sm6115 -b rvc-inline kernel --depth=1
+           git clone -j$(nproc --all) https://github.com/greenforce-project/kernel_xiaomi_citrus_sm6115 -b rvc kernel --depth=1
            cd kernel && wget https://github.com/timangpopi1/repo/raw/master/build.sh
            export codename="juice" && export defconfig="vendor/juice-perf_defconfig" && export tok="1747626567:AAG1Ry3OqzCCUFsLd6bA0fjHsWmCBUkk9YA"
            chmod +x build.sh && bash ./build.sh "1201257517" "${tok}" "-1001360920692" "${defconfig}" "${codename}" "Xiaomi POCO M3 & Redmi 9T (unified)"
