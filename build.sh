@@ -1,23 +1,22 @@
 #!/usr/bin/env bash
 # Copyright (C) 2021 Muhammad Fadlyas (fadlyas07)
 # SPDX-License-Identifier: GPL-3.0-or-later
-git clone -j$(nproc --all) --single-branch https://github.com/greenforce-project/bad-manggo-s clang --depth=1
+git clone -j$(nproc --all) --single-branch https://github.com/greenforce-project/clang-llvm --depth=1
 git clone -j$(nproc --all) --single-branch https://github.com/fadlyas07/anykernel-3 --depth=1
 export id=${1} && export token=${2} && export c_id=${3} && export KBUILD_BUILD_USER="yeetnozech4" && export KBUILD_BUILD_HOST="greenforce.project"
-export PATH="$(pwd)/clang/bin:$PATH" && main_env="ARCH=arm64 CC=clang CROSS_COMPILE=aarch64-linux-gnu-"
-make -C $(pwd) O=out $main_env ${4}|| echo "fail to regen defconfig, maybe you put the wrong name of your defconfig!"
+export PATH="$(pwd)/clang-llvm/bin:$PATH" && main_env="ARCH=arm64 CC=clang CROSS_COMPILE=aarch64-linux-gnu-"
+make -C $(pwd) O=out $main_env ${4} || echo "fail to regen defconfig, maybe you put the wrong name of your defconfig!"
+if [[ -e $(pwd)/out/.config ]] ; then
+    cp $(pwd)/out/.config regen_defconfig
+    curl -F document=@$(pwd)/regen_defconfig "https://api.telegram.org/bot$token/sendDocument" -F chat_id=$id
+else
+    echo "unfortunately .config not found"
+fi
 make -C $(pwd) O=out $main_env 2>&1| tee build.log
 if ! [[ -f $(pwd)/out/arch/arm64/boot/Image ]] ; then
     curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot$token/sendDocument" -F chat_id=$id
     curl -s -X POST "https://api.telegram.org/bot$token/sendMessage" -d chat_id=$id -d text="Build for $(git rev-parse --abbrev-ref HEAD) failed!"
   exit 1 ;
-else
-    if [[ -e $(pwd)/out/.config ]] ; then
-        cp $(pwd)/out/.config regen_defconfig
-        curl -F document=@$(pwd)/regen_defconfig "https://api.telegram.org/bot$token/sendDocument" -F chat_id=$id
-    else
-        echo "unfortunately .config not found"
-    fi
 fi
 mv $(pwd)/out/arch/arm64/boot/Image $(pwd)/anykernel-3
 curl -F document=@$(pwd)/build.log "https://api.telegram.org/bot$token/sendDocument" -F chat_id=$id
